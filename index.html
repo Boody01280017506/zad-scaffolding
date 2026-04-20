@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>زاد - نظام إدارة الشدات | النسخة الاحترافية</title>
+    <title>زاد - نظام إدارة الشدات | النسخة المحسّنة 2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -16,43 +16,128 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         body { background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; padding: 12px; }
         .container { max-width: 1400px; margin: 0 auto; }
-        .premium-header { background: rgba(15,23,42,0.85); backdrop-filter: blur(12px); border-radius: 28px; padding: 12px 20px; margin-bottom: 20px; text-align: center; border: 1px solid rgba(243,156,18,0.3); }
-        .premium-header h1 { font-size: 1.6rem; font-weight: 900; background: linear-gradient(135deg, #fff, #f39c12); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        
+        /* تحسينات Toast النوتيفكيشن */
+        .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 10001; }
+        .toast { background: white; padding: 16px 20px; border-radius: 12px; margin-bottom: 10px; 
+                 box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; 
+                 animation: slideIn 0.3s ease-out; min-width: 300px; }
+        .toast.success { border-right: 4px solid #27ae60; }
+        .toast.error { border-right: 4px solid #c0392b; }
+        .toast.warning { border-right: 4px solid #f39c12; }
+        .toast.info { border-right: 4px solid #3498db; }
+        @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        .premium-header { background: rgba(15,23,42,0.85); backdrop-filter: blur(12px); border-radius: 28px; 
+                         padding: 12px 20px; margin-bottom: 20px; text-align: center; border: 1px solid rgba(243,156,18,0.3); }
+        .premium-header h1 { font-size: 1.6rem; font-weight: 900; background: linear-gradient(135deg, #fff, #f39c12); 
+                            -webkit-background-clip: text; background-clip: text; color: transparent; }
         .designer-credit-header { font-size: 0.7rem; color: #f39c12; }
+        
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .search-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(243,156,18,0.3); 
+                     padding: 8px 16px; border-radius: 20px; color: white; width: 300px; }
+        .search-box::placeholder { color: rgba(255,255,255,0.5); }
+        
         .tabs-modern { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
-        .tab-btn { background: rgba(30,41,59,0.8); border: none; padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 0.8rem; color: #e2e8f0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .tab-btn { background: rgba(30,41,59,0.8); border: none; padding: 8px 16px; border-radius: 50px; 
+                  font-weight: 700; font-size: 0.8rem; color: #e2e8f0; cursor: pointer; display: inline-flex; 
+                  align-items: center; gap: 6px; transition: 0.2s; position: relative; }
         .tab-btn.active { background: #f39c12; color: #0f172a; transform: scale(1.02); }
-        .glass-card { background: rgba(255,255,255,0.96); border-radius: 28px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .tab-btn .badge { position: absolute; top: -8px; right: -8px; background: #c0392b; color: white; 
+                         border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
+                         justify-content: center; font-size: 0.7rem; }
+        
+        .glass-card { background: rgba(255,255,255,0.96); border-radius: 28px; padding: 18px; margin-bottom: 20px; 
+                     box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.2s; }
         @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        
         .flex-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
         .field { flex: 1; min-width: 130px; }
         .field label { font-weight: 800; font-size: 0.75rem; display: block; color: #1e293b; margin-bottom: 4px; }
-        .field input, .field select { width: 100%; padding: 10px 12px; border-radius: 28px; border: 1.5px solid #e2e8f0; background: white; }
-        .btn { background: #1e293b; border: none; padding: 10px 20px; border-radius: 40px; font-weight: 800; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .field input, .field select { width: 100%; padding: 10px 12px; border-radius: 28px; border: 1.5px solid #e2e8f0; 
+                                     background: white; font-size: 0.9rem; }
+        .field input:focus, .field select:focus { outline: none; border-color: #f39c12; box-shadow: 0 0 8px rgba(243,156,18,0.2); }
+        
+        .btn { background: #1e293b; border: none; padding: 10px 20px; border-radius: 40px; font-weight: 800; 
+              color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .btn:hover { background: #f39c12; color: #0f172a; transform: translateY(-2px); }
         .btn-gold { background: #f39c12; color: #0f172a; }
         .btn-red { background: #c0392b; }
         .btn-green { background: #27ae60; }
+        .btn-blue { background: #3498db; }
         .btn-sm { padding: 6px 12px; font-size: 0.7rem; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
         .premium-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-        .premium-table th { background: #f1f5f9; padding: 8px 4px; }
+        .premium-table th { background: #f1f5f9; padding: 8px 4px; font-weight: 800; }
         .premium-table td { padding: 8px 4px; border-bottom: 1px solid #eef2f6; }
-        .badge-light { background: #f8fafc; border-radius: 20px; padding: 8px 16px; display: inline-flex; flex-wrap: wrap; gap: 16px; font-weight: 700; font-size: 0.75rem; margin-bottom: 10px; }
+        .premium-table tr:hover { background: #f8fafc; }
+        
+        .badge-light { background: #f8fafc; border-radius: 20px; padding: 8px 16px; display: inline-flex; 
+                      flex-wrap: wrap; gap: 16px; font-weight: 700; font-size: 0.75rem; margin-bottom: 10px; }
+        .badge-warning { background: #fff3cd; color: #856404; padding: 8px 12px; border-radius: 8px; 
+                        margin-bottom: 10px; border-right: 3px solid #f39c12; }
+        
         .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .stat-card { background: white; border-radius: 20px; padding: 12px; text-align: center; border-right: 4px solid #f39c12; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .stat-card { background: white; border-radius: 20px; padding: 12px; text-align: center; border-right: 4px solid #f39c12; 
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: 0.2s; }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .stat-card h3 { font-size: 1.4rem; font-weight: 800; }
+        .stat-card.warning { border-right-color: #f39c12; }
+        .stat-card.danger { border-right-color: #c0392b; }
+        
         .charts-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0; }
         .chart-box { background: white; border-radius: 24px; padding: 12px; }
         canvas { max-height: 250px; width: 100% !important; }
-        .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: linear-gradient(145deg, #0f172a, #1e293b); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+        
+        .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: linear-gradient(145deg, #0f172a, #1e293b); 
+                        display: flex; align-items: center; justify-content: center; z-index: 10000; }
         .login-card { background: white; border-radius: 32px; padding: 30px; width: 90%; max-width: 350px; text-align: center; }
-        .login-card input { width: 100%; padding: 12px; border-radius: 40px; border: 1.5px solid #e2e8f0; margin-bottom: 15px; }
+        .login-card input { width: 100%; padding: 12px; border-radius: 40px; border: 1.5px solid #e2e8f0; 
+                           margin-bottom: 15px; font-size: 0.95rem; }
         .error-msg { color: red; margin-top: 10px; font-size: 0.8rem; }
-        .logout-btn { background: #c0392b; color: white; border: none; padding: 5px 12px; border-radius: 40px; font-size: 0.7rem; cursor: pointer; margin-right: 10px; }
-        @media (max-width:640px){ .tab-btn { padding: 6px 12px; font-size: 0.7rem; } .field { min-width: 100%; } .flex-form { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
+        .logout-btn { background: #c0392b; color: white; border: none; padding: 5px 12px; border-radius: 40px; 
+                     font-size: 0.7rem; cursor: pointer; margin-right: 10px; }
+        
+        /* الألوان حسب النوع */
+        .log-in { background: rgba(39,174,96,0.05); }
+        .log-out { background: rgba(52,152,219,0.05); }
+        .log-waste { background: rgba(192,57,43,0.05); }
+        
+        /* جدول البيانات المتقدم */
+        .data-table-wrapper { overflow-x: auto; }
+        .sort-header { cursor: pointer; user-select: none; }
+        .sort-header:after { content: ' ⇅'; font-size: 0.8rem; }
+        .sort-header.asc:after { content: ' ↑'; }
+        .sort-header.desc:after { content: ' ↓'; }
+        
+        /* Modal للتأكيد */
+        .modal { display: none; position: fixed; z-index: 10002; left: 0; top: 0; width: 100%; height: 100%; 
+                background-color: rgba(0,0,0,0.4); }
+        .modal.show { display: block; }
+        .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 20px; 
+                        width: 80%; max-width: 400px; }
+        .modal-header { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; color: #1e293b; }
+        .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        
+        /* نظام الإنذارات */
+        .alert { padding: 12px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .alert-danger { background: #f8d7da; color: #721c24; border-right: 3px solid #c0392b; }
+        .alert-warning { background: #fff3cd; color: #856404; border-right: 3px solid #f39c12; }
+        .alert-success { background: #d4edda; color: #155724; border-right: 3px solid #27ae60; }
+        .alert-info { background: #d1ecf1; color: #0c5460; border-right: 3px solid #3498db; }
+        
+        @media (max-width:640px){ 
+            .tab-btn { padding: 6px 12px; font-size: 0.7rem; } 
+            .field { min-width: 100%; } 
+            .flex-form { flex-direction: column; } 
+            .btn { width: 100%; justify-content: center; }
+            .search-box { width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -67,14 +152,32 @@
     </div>
 </div>
 
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modal للتأكيد -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header" id="confirmTitle">تأكيد العملية</div>
+        <p id="confirmMessage">هل أنت متأكد؟</p>
+        <div class="modal-buttons">
+            <button class="btn" onclick="closeConfirm()">إلغاء</button>
+            <button class="btn btn-red" id="confirmBtn" onclick="executeConfirm()">تأكيد</button>
+        </div>
+    </div>
+</div>
+
 <div class="container" id="mainApp" style="display: none;">
     <div class="premium-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h1>زاد | نظام إدارة الشدات</h1>
-            <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> خروج</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <h1>زاد | نظام إدارة الشدات 2.0</h1>
+            <div style="display: flex; gap: 10px;">
+                <span id="userInfo" style="color: #f39c12; font-weight: 800;"></span>
+                <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> خروج</button>
+            </div>
         </div>
-        <div class="designer-credit-header">المهندس عبدالرحمن بن محمد الكيلانى</div>
+        <div class="designer-credit-header">📊 النسخة المحسّنة 2.0 | المهندس عبدالرحمن بن محمد الكيلانى</div>
     </div>
+
     <div class="tabs-modern" id="tabsContainer">
         <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-chart-line"></i> لوحة التحكم</button>
         <button class="tab-btn" data-tab="log"><i class="fas fa-list"></i> سجل الحركات</button>
@@ -82,22 +185,26 @@
         <button class="tab-btn" data-tab="in"><i class="fas fa-truck"></i> توريد</button>
         <button class="tab-btn" data-tab="out"><i class="fas fa-exchange-alt"></i> مرتجع</button>
         <button class="tab-btn" data-tab="wastage"><i class="fas fa-trash"></i> هالك</button>
+        <button class="tab-btn" data-tab="alerts"><i class="fas fa-bell"></i> التنبيهات<span class="badge" id="alertBadge" style="display:none;">0</span></button>
         <button class="tab-btn" data-tab="history"><i class="fas fa-coins"></i> الإيجارات</button>
         <button class="tab-btn" id="itemsTab" data-tab="items"><i class="fas fa-cogs"></i> الأصناف</button>
         <button class="tab-btn" id="adminTab" data-tab="admin"><i class="fas fa-tools"></i> إدارة النظام</button>
-        <button class="tab-btn" id="usersTab" data-tab="users"><i class="fas fa-users"></i> إدارة المستخدمين</button>
+        <button class="tab-btn" id="usersTab" data-tab="users"><i class="fas fa-users"></i> المستخدمين</button>
+        <button class="tab-btn" id="reportsTab" data-tab="reports"><i class="fas fa-chart-pie"></i> التقارير</button>
     </div>
 
     <!-- Dashboard -->
     <div id="dashboard" class="tab-content active">
         <div class="glass-card">
-            <h3>ملخص سريع</h3>
+            <h3>📊 ملخص سريع</h3>
+            <div id="dashAlerts"></div>
             <div class="stats-grid">
                 <div class="stat-card"><i class="fas fa-truck"></i><h3 id="dashTotalIn">0</h3><p>إجمالي التوريد</p></div>
                 <div class="stat-card"><i class="fas fa-undo"></i><h3 id="dashTotalOut">0</h3><p>إجمالي المرتجع</p></div>
-                <div class="stat-card"><i class="fas fa-trash"></i><h3 id="dashTotalWaste">0</h3><p>إجمالي الهالك</p></div>
+                <div class="stat-card danger"><i class="fas fa-trash"></i><h3 id="dashTotalWaste">0</h3><p>إجمالي الهالك</p></div>
                 <div class="stat-card"><i class="fas fa-charging-station"></i><h3 id="dashNetActive">0</h3><p>صافي العهدة</p></div>
-                <div class="stat-card"><i class="fas fa-money-bill"></i><h3 id="dashTotalRent">0</h3><p>إجمالي الإيجار</p></div>
+                <div class="stat-card warning"><i class="fas fa-money-bill"></i><h3 id="dashTotalRent">0</h3><p>إجمالي الإيجار</p></div>
+                <div class="stat-card"><i class="fas fa-warning"></i><h3 id="dashWastePercent">0%</h3><p>نسبة الهالك</p></div>
             </div>
             <div class="charts-container">
                 <div class="chart-box"><canvas id="itemChart"></canvas><p style="text-align:center;">توزيع الكميات بالأصناف</p></div>
@@ -109,26 +216,29 @@
     <!-- Log -->
     <div id="log" class="tab-content">
         <div class="glass-card">
-            <h3>سجل الحركات</h3>
+            <h3>📋 سجل الحركات</h3>
             <div class="filter-bar">
-                <select id="logFilter"><option value="all">الكل</option><option value="in">توريد</option><option value="out">مرتجع</option><option value="waste">هالك</option></select>
+                <select id="logFilter"><option value="all">الكل</option><option value="in">توريد</option><option value="out">مرتجع سليم</option><option value="waste">هالك</option></select>
                 <select id="logItemFilter"><option value="all">كل الأصناف</option></select>
-                <button id="refreshLogBtn" class="btn btn-sm">تحديث</button>
+                <input type="date" id="logFromDate" placeholder="من">
+                <input type="date" id="logToDate" placeholder="إلى">
+                <button id="refreshLogBtn" class="btn btn-sm"><i class="fas fa-sync"></i> تحديث</button>
             </div>
             <div id="logTotalTop" class="badge-light"></div>
-            <div style="overflow-x:auto"><table class="premium-table" id="logTable"><thead><tr><th>النوع</th><th>التاريخ</th><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الأيام</th><th>التكلفة</th><th>ملاحظات</th><th></th></tr></thead><tbody></tbody></table></div>
+            <div class="data-table-wrapper"><table class="premium-table" id="logTable"><thead><tr><th>النوع</th><th>التاريخ</th><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الأيام</th><th>التكلفة</th><th>ملاحظات</th><th></th></tr></thead><tbody></tbody></table></div>
         </div>
     </div>
 
     <!-- Inventory -->
     <div id="inventory" class="tab-content">
         <div class="glass-card">
-            <h3>العهدة الحالية</h3>
-            <div class="badge-light"><span>إجمالي القطع: <strong id="totalQty">0</strong></span><span>التكلفة اليومية: <strong id="totalDaily">0</strong> ج.م</span></div>
-            <table class="premium-table" id="summaryTable"><thead><tr><th>الصنف</th><th>الكمية</th><th>التكلفة اليومية</th><th></th></tr></thead><tbody></tbody></table>
-            <hr><h4>تفاصيل الدفعات</h4>
+            <h3>📦 العهدة الحالية</h3>
+            <div id="inventoryAlerts"></div>
+            <div class="badge-light"><span>إجمالي القطع: <strong id="totalQty">0</strong></span><span>التكلفة اليومية: <strong id="totalDaily">0</strong> ج.م</span><span>عدد الأصناف: <strong id="totalItems">0</strong></span></div>
+            <table class="premium-table" id="summaryTable"><thead><tr><th>الصنف</th><th>الكمية</th><th>التكلفة اليومية</th><th>% من الإجمالي</th><th></th></tr></thead><tbody></tbody></table>
+            <hr><h4>🔍 تفاصيل الدفعات</h4>
             <select id="detailFilter"><option value="all">الكل</option></select>
-            <button id="refreshDetailBtn" class="btn btn-sm">تحديث</button>
+            <button id="refreshDetailBtn" class="btn btn-sm"><i class="fas fa-sync"></i> تحديث</button>
             <div id="detailedInventory"></div>
         </div>
     </div>
@@ -136,12 +246,14 @@
     <!-- In -->
     <div id="in" class="tab-content">
         <div class="glass-card">
-            <h3>توريد جديد</h3>
+            <h3>📥 توريد جديد</h3>
             <div class="flex-form">
                 <div class="field"><label>الصنف</label><select id="inItem"></select></div>
                 <div class="field"><label>العدد</label><input type="number" id="inQty" min="1"></div>
+                <div class="field"><label>السعر (اختياري)</label><input type="number" id="inPrice" step="0.01" placeholder="السعر الحالي"></div>
                 <div class="field"><label>التاريخ</label><input type="date" id="inDate"></div>
-                <div><button id="addBtn" class="btn">تسجيل</button></div>
+                <div class="field"><label>ملاحظات</label><input type="text" id="inNote" placeholder="ملاحظات إضافية"></div>
+                <div><button id="addBtn" class="btn btn-green"><i class="fas fa-plus"></i> تسجيل</button></div>
             </div>
         </div>
     </div>
@@ -149,14 +261,15 @@
     <!-- Out -->
     <div id="out" class="tab-content">
         <div class="glass-card">
-            <h3>مرتجع (سليم + هالك)</h3>
+            <h3>📤 مرتجع (سليم + هالك)</h3>
+            <div id="outAlerts"></div>
             <div class="flex-form">
                 <div class="field"><label>الصنف</label><select id="outItem"></select></div>
                 <div class="field"><label>السليم</label><input type="number" id="returnQty" min="0" placeholder="0"></div>
                 <div class="field"><label>الهالك</label><input type="number" id="wasteQty" min="0" placeholder="0"></div>
-                <div class="field"><label>ملاحظات الهالك</label><input type="text" id="wasteNote" placeholder="السبب"></div>
+                <div class="field"><label>سبب الهالك</label><input type="text" id="wasteNote" placeholder="السبب"></div>
                 <div class="field"><label>تاريخ الخروج</label><input type="date" id="outDate"></div>
-                <div><button id="returnBtn" class="btn btn-gold">تأكيد</button></div>
+                <div><button id="returnBtn" class="btn btn-gold"><i class="fas fa-check"></i> تأكيد</button></div>
             </div>
         </div>
     </div>
@@ -164,25 +277,39 @@
     <!-- Wastage -->
     <div id="wastage" class="tab-content">
         <div class="glass-card">
-            <h3>سجل الهالك</h3>
+            <h3>🗑️ سجل الهالك</h3>
             <div class="filter-bar">
                 <select id="wasteFilterItem"><option value="all">كل الأصناف</option></select>
                 <input type="date" id="wasteFrom"><input type="date" id="wasteTo">
-                <button id="filterWasteBtn" class="btn btn-sm">تصفية</button>
-                <button id="resetWasteBtn" class="btn btn-sm">إعادة</button>
+                <button id="filterWasteBtn" class="btn btn-sm"><i class="fas fa-filter"></i> تصفية</button>
+                <button id="resetWasteBtn" class="btn btn-sm"><i class="fas fa-redo"></i> إعادة</button>
             </div>
             <div class="badge-light">💰 إجمالي تكلفة الهالك: <strong id="totalWasteCost">0</strong> ج.م</div>
-            <table class="premium-table" id="wasteTable"><thead><tr><th>التاريخ</th><th>الصنف</th><th>الكمية</th><th>الأيام</th><th>التكلفة</th><th>ملاحظات</th></tr></thead><tbody></tbody></table>
+            <div class="badge-light">📊 عدد حالات الهالك: <strong id="wasteCount">0</strong></div>
+            <table class="premium-table" id="wasteTable"><thead><tr><th>التاريخ</th><th>الصنف</th><th>الكمية</th><th>الأيام</th><th>التكلفة</th><th>السبب</th></tr></thead><tbody></tbody></table>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    <div id="alerts" class="tab-content">
+        <div class="glass-card">
+            <h3>🔔 التنبيهات والإنذارات</h3>
+            <div class="filter-bar">
+                <select id="alertFilter"><option value="all">الكل</option><option value="low_stock">مخزون منخفض</option><option value="high_waste">هالك مرتفع</option><option value="system">نظام</option></select>
+                <button id="clearAlertsBtn" class="btn btn-sm btn-red"><i class="fas fa-trash"></i> مسح الكل</button>
+            </div>
+            <div id="alertsList"></div>
         </div>
     </div>
 
     <!-- History -->
     <div id="history" class="tab-content">
         <div class="glass-card">
-            <h3>سجل الإيجارات</h3>
+            <h3>💰 سجل الإيجارات</h3>
             <div class="filter-bar">
                 <select id="rentFilter"><option value="all">الكل</option></select>
-                <button id="refreshRentBtn" class="btn btn-sm">تصفية</button>
+                <select id="rentType"><option value="all">كل الأنواع</option><option value="مرتجع سليم">مرتجع سليم</option><option value="هالك">هالك</option></select>
+                <button id="refreshRentBtn" class="btn btn-sm"><i class="fas fa-sync"></i> تصفية</button>
             </div>
             <div class="badge-light">💰 الإيجار المحصل: <strong id="totalRentSum">0</strong> ج.م</div>
             <table class="premium-table" id="rentTable"><thead><tr><th>التاريخ</th><th>النوع</th><th>الصنف</th><th>الكمية</th><th>الأيام</th><th>التكلفة</th><th>ملاحظات</th></tr></thead><tbody></tbody></table>
@@ -192,11 +319,12 @@
     <!-- Items -->
     <div id="items" class="tab-content">
         <div class="glass-card">
-            <h3>إدارة الأصناف</h3>
+            <h3>⚙️ إدارة الأصناف</h3>
             <div class="flex-form">
                 <div class="field"><label>اسم الصنف</label><input type="text" id="newItemName"></div>
-                <div class="field"><label>السعر اليومي</label><input type="number" id="newItemPrice" step="0.01"></div>
-                <div><button id="saveItemBtn" class="btn">إضافة/تحديث</button></div>
+                <div class="field"><label>السعر اليومي (ج.م)</label><input type="number" id="newItemPrice" step="0.01" min="0"></div>
+                <div class="field"><label>الحد الأدنى للمخزون</label><input type="number" id="newItemMin" step="1" min="0" value="5"></div>
+                <div><button id="saveItemBtn" class="btn btn-green"><i class="fas fa-save"></i> إضافة/تحديث</button></div>
             </div>
             <div id="itemsList"></div>
         </div>
@@ -205,15 +333,21 @@
     <!-- Admin -->
     <div id="admin" class="tab-content">
         <div class="glass-card">
-            <h3>إدارة النظام</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <h3>🔧 إدارة النظام</h3>
+            <h4>📊 النسخ الاحتياطي والاستعادة</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
                 <button id="backupBtn" class="btn btn-green"><i class="fas fa-download"></i> نسخ احتياطي</button>
-                <label for="restoreFile" style="background:#2980b9; padding:10px 20px; border-radius:40px; color:white; cursor:pointer;"><i class="fas fa-upload"></i> استعادة</label>
+                <label for="restoreFile" class="btn btn-blue"><i class="fas fa-upload"></i> استعادة</label>
                 <input type="file" id="restoreFile" accept=".json" style="display:none;">
                 <button id="exportExcelBtn" class="btn btn-green"><i class="fas fa-file-excel"></i> Excel</button>
                 <button id="exportPdfBtn" class="btn btn-green"><i class="fas fa-file-pdf"></i> PDF</button>
                 <button id="importExcelBtn" class="btn btn-green"><i class="fas fa-file-import"></i> استيراد Excel</button>
-                <button id="resetAllBtn" class="btn btn-red">مسح الكل</button>
+            </div>
+            <hr>
+            <h4>⚠️ عمليات خطرة</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <button id="resetAllBtn" class="btn btn-red"><i class="fas fa-trash"></i> مسح جميع البيانات</button>
+                <button id="generateReportBtn" class="btn btn-blue"><i class="fas fa-chart-bar"></i> تقرير شامل</button>
             </div>
         </div>
     </div>
@@ -221,26 +355,71 @@
     <!-- Users -->
     <div id="users" class="tab-content">
         <div class="glass-card">
-            <h3>الأجهزة النشطة</h3>
+            <h3>👥 إدارة المستخدمين</h3>
+            <h4>📱 الأجهزة النشطة</h4>
             <div id="devicesList"></div>
             <hr>
-            <h3>المستخدمين المسجلين</h3>
+            <h4>👤 المستخدمين المسجلين</h4>
             <div id="usersListDisplay"></div>
             <hr>
-            <h4>إضافة مستخدم جديد</h4>
+            <h4>➕ إضافة مستخدم جديد</h4>
             <div class="flex-form">
                 <div class="field"><label>اسم المستخدم</label><input type="text" id="newUsername"></div>
                 <div class="field"><label>كلمة المرور</label><input type="text" id="newUserPass"></div>
                 <div class="field"><label>الصلاحية</label><select id="newUserRole"><option value="viewer">مشاهد</option><option value="admin">مدير</option></select></div>
-                <div><button id="addUserBtn" class="btn btn-green">إضافة</button></div>
+                <div><button id="addUserBtn" class="btn btn-green"><i class="fas fa-user-plus"></i> إضافة</button></div>
             </div>
         </div>
     </div>
 
-    <footer style="text-align:center; margin-top:20px; color:#94a3b8;">© 2026 شركة زاد - جميع الحقوق محفوظة</footer>
+    <!-- Reports -->
+    <div id="reports" class="tab-content">
+        <div class="glass-card">
+            <h3>📊 التقارير المتقدمة</h3>
+            <div class="flex-form">
+                <div class="field"><label>نوع التقرير</label><select id="reportType"><option value="monthly">شهري</option><option value="quarterly">ربع سنوي</option><option value="yearly">سنوي</option><option value="item">حسب الصنف</option></select></div>
+                <div class="field"><label>من</label><input type="date" id="reportFrom"></div>
+                <div class="field"><label>إلى</label><input type="date" id="reportTo"></div>
+                <div><button id="generateBtn" class="btn btn-blue"><i class="fas fa-chart-line"></i> إنشاء تقرير</button></div>
+            </div>
+            <div id="reportsContainer"></div>
+        </div>
+    </div>
+
+    <footer style="text-align:center; margin-top:20px; color:#94a3b8;">© 2026 شركة زاد - جميع الحقوق محفوظة | النسخة 2.0 المحسّنة</footer>
 </div>
 
 <script>
+    // ==================== نظام التنبيهات (Toast) ====================
+    function showToast(message, type = 'success', duration = 3000) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+            <span><i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i></span>
+            <span>${message}</span>
+        `;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), duration);
+    }
+
+    // نظام التأكيد
+    let confirmCallback = null;
+    function showConfirm(title, message, callback) {
+        document.getElementById('confirmTitle').innerText = title;
+        document.getElementById('confirmMessage').innerText = message;
+        document.getElementById('confirmModal').classList.add('show');
+        confirmCallback = callback;
+    }
+    function closeConfirm() {
+        document.getElementById('confirmModal').classList.remove('show');
+        confirmCallback = null;
+    }
+    function executeConfirm() {
+        if(confirmCallback) confirmCallback();
+        closeConfirm();
+    }
+
     // ==================== إعدادات Firebase ====================
     const firebaseConfig = {
         apiKey: "AIzaSyA7rWbvkT8zHxjIPmOCKa-8WgVv1q2nwqY",
@@ -251,12 +430,22 @@
         messagingSenderId: "35052805551",
         appId: "1:35052805551:web:1246d93e825f633d03635a"
     };
+    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
     // ==================== المتغيرات العامة ====================
-    let transactionLog = [], masterItems = [], wastageLog = [], inventory = [], rentHistory = [];
-    const defaultItems = [{name:"قائم 3 متر",price:1.55},{name:"قائم 4 متر",price:1.80},{name:"عارضة 2 متر",price:1.20},{name:"عارضة 3 متر",price:1.45},{name:"وصلة",price:0.85},{name:"قاعدة",price:0.55},{name:"شداد",price:0.75},{name:"سقالة أفقية",price:1.05}];
+    let transactionLog = [], masterItems = [], wastageLog = [], inventory = [], rentHistory = [], alerts = [];
+    const defaultItems = [
+        {name:"قائم 3 متر",price:1.55,minStock:5},
+        {name:"قائم 4 متر",price:1.80,minStock:5},
+        {name:"عارضة 2 متر",price:1.20,minStock:8},
+        {name:"عارضة 3 متر",price:1.45,minStock:8},
+        {name:"وصلة",price:0.85,minStock:10},
+        {name:"قاعدة",price:0.55,minStock:10},
+        {name:"شداد",price:0.75,minStock:8},
+        {name:"سقالة أفقية",price:1.05,minStock:5}
+    ];
     
     let currentUser = null;
     let usersList = { admin: { password: "admin123", role: "admin" } };
@@ -264,25 +453,83 @@
 
     // ==================== دوال مساعدة ====================
     function escapeHtml(s){ return String(s).replace(/[&<>]/g, m=> m==='&'?'&amp;': m==='<'?'&lt;':'&gt;'); }
-    function showLoad(on){ let el=document.getElementById('loadOver'); if(on&&!el){ let d=document.createElement('div'); d.id='loadOver'; d.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999'; d.innerHTML='<div style="width:40px;height:40px;border:4px solid #fff;border-top-color:#f39c12;border-radius:50%;animation:spin 0.8s linear infinite;"></div>'; document.body.appendChild(d); } else if(el&&!on) el.remove(); }
+    function formatCurrency(num) { return new Intl.NumberFormat('ar-EG', { style: 'currency', currency: 'EGP' }).format(num); }
+    function getCurrentDate() { return new Date().toISOString().slice(0,10); }
     
+    // ==================== نظام الإنذارات ====================
+    function addAlert(type, message, itemName = null) {
+        alerts.push({
+            id: Date.now(),
+            type: type, // low_stock, high_waste, system
+            message: message,
+            itemName: itemName,
+            date: new Date(),
+            read: false
+        });
+        updateAlertBadge();
+    }
+
+    function updateAlertBadge() {
+        let unreadCount = alerts.filter(a => !a.read).length;
+        let badge = document.getElementById('alertBadge');
+        if(unreadCount > 0) {
+            badge.innerText = unreadCount;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    function checkAlerts() {
+        // فحص المخزون المنخفض
+        let map = new Map();
+        inventory.forEach(b => {
+            if(!map.has(b.item)) map.set(b.item, 0);
+            map.set(b.item, map.get(b.item) + b.qty);
+        });
+        
+        for(let [item, qty] of map.entries()) {
+            let itemData = masterItems.find(m => m.name === item);
+            let minStock = itemData?.minStock || 5;
+            if(qty < minStock) {
+                let existingAlert = alerts.find(a => a.type === 'low_stock' && a.itemName === item);
+                if(!existingAlert) {
+                    addAlert('low_stock', `المخزون منخفض: ${item} (${qty} فقط)`, item);
+                }
+            }
+        }
+
+        // فحص الهالك المرتفع
+        let totalWaste = wastageLog.length;
+        let totalTrans = transactionLog.length;
+        if(totalTrans > 0) {
+            let wastePercent = (totalWaste / totalTrans) * 100;
+            if(wastePercent > 10) {
+                let existingAlert = alerts.find(a => a.type === 'high_waste');
+                if(!existingAlert) {
+                    addAlert('high_waste', `نسبة الهالك مرتفعة: ${wastePercent.toFixed(1)}%`);
+                }
+            }
+        }
+    }
+
     // ==================== حفظ و تحميل البيانات ====================
     async function pushAll(){
-        showLoad(true);
-        try{
+        try {
             await db.ref('transactionLog').set(transactionLog);
             await db.ref('masterItems').set(masterItems);
             await db.ref('wastageLog').set(wastageLog);
             await db.ref('users').set(usersList);
             await db.ref('sessions').set(sessions);
-            console.log("✅ تم حفظ جميع البيانات بنجاح");
-        } catch(e){ alert('❌ خطأ في الحفظ: '+e.message); }
-        showLoad(false);
+            console.log("✅ تم حفظ البيانات بنجاح");
+        } catch(e) {
+            showToast('خطأ في الحفظ: ' + e.message, 'error');
+            console.error(e);
+        }
     }
     
     async function loadAll(){
-        showLoad(true);
-        try{
+        try {
             transactionLog = (await db.ref('transactionLog').once('value')).val() || [];
             masterItems = (await db.ref('masterItems').once('value')).val() || defaultItems;
             wastageLog = (await db.ref('wastageLog').once('value')).val() || [];
@@ -290,11 +537,13 @@
             if(u) usersList = u;
             let s = (await db.ref('sessions').once('value')).val();
             if(s) sessions = s;
-            if(masterItems.length===0) masterItems = defaultItems;
-            console.log("✅ تم تحميل جميع البيانات بنجاح");
-        } catch(e){ alert('❌ خطأ في التحميل: '+e.message); }
-        showLoad(false);
-        rebuild();
+            if(masterItems.length === 0) masterItems = defaultItems;
+            console.log("✅ تم تحميل البيانات بنجاح");
+            rebuild();
+        } catch(e) {
+            showToast('خطأ في التحميل: ' + e.message, 'error');
+            console.error(e);
+        }
     }
     
     // ==================== إعادة بناء المخزون والإيجارات ====================
@@ -302,7 +551,8 @@
         inventory = [];
         rentHistory = [];
         let wasteTemp = [];
-        let sorted = [...transactionLog].sort((a,b)=>new Date(a.date)-new Date(b.date));
+        let sorted = [...transactionLog].sort((a,b) => new Date(a.date) - new Date(b.date));
+        
         for(let t of sorted){
             if(t.type === 'in'){
                 inventory.push({item:t.item, qty:t.qty, price:t.price, date:t.date});
@@ -310,10 +560,12 @@
                 let rem = t.qty;
                 let totalCost = 0, totalDays = 0, totalRet = 0, parts = [];
                 let newInv = [];
+                
                 for(let b of inventory){
                     if(b.item !== t.item){ newInv.push(b); continue; }
                     if(rem === 0){ newInv.push(b); continue; }
-                    let days = Math.max(1, Math.ceil((new Date(t.date)-new Date(b.date))/86400000));
+                    
+                    let days = Math.max(1, Math.ceil((new Date(t.date) - new Date(b.date)) / 86400000));
                     if(b.qty <= rem){
                         let c = b.qty * b.price * days;
                         totalCost += c;
@@ -332,6 +584,7 @@
                         rem = 0;
                     }
                 }
+                
                 if(totalRet > 0){
                     let rec = {
                         id: t.id,
@@ -339,7 +592,7 @@
                         type: t.type === 'out' ? 'مرتجع سليم' : 'هالك',
                         item: t.item,
                         qty: totalRet,
-                        days: Math.round(totalDays/totalRet),
+                        days: Math.round(totalDays / totalRet),
                         cost: totalCost,
                         details: parts.join(' + '),
                         note: t.note || ''
@@ -350,7 +603,9 @@
                 inventory = newInv;
             }
         }
+        
         wastageLog = wasteTemp;
+        checkAlerts();
         updateFilters();
         renderAll();
         drawCharts();
@@ -359,26 +614,33 @@
     
     // ==================== تحديث قوائم الأصناف ====================
     function updateFilters(){
-        let items = masterItems.map(m=>m.name);
-        let opts = items.map(i=>`<option value="${escapeHtml(i)}">${escapeHtml(i)} (${masterItems.find(x=>x.name===i).price.toFixed(2)} ج.م)</option>`).join('');
+        let items = masterItems.map(m => m.name);
+        let opts = items.map(i => {
+            let itemData = masterItems.find(x => x.name === i);
+            return `<option value="${escapeHtml(i)}">${escapeHtml(i)} (${itemData.price.toFixed(2)} ج.م)</option>`;
+        }).join('');
+        
         if(document.getElementById('inItem')) document.getElementById('inItem').innerHTML = opts;
         if(document.getElementById('outItem')) document.getElementById('outItem').innerHTML = opts;
         
+        // تحديث الفلاتر الأخرى...
         let logItem = document.getElementById('logItemFilter');
         if(logItem){
             let cur = logItem.value;
-            logItem.innerHTML = '<option value="all">كل الأصناف</option>' + items.map(i=>`<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
+            logItem.innerHTML = '<option value="all">كل الأصناف</option>' + items.map(i => `<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
             if(items.includes(cur)) logItem.value = cur;
         }
+        
         let rentF = document.getElementById('rentFilter');
         if(rentF){
-            let uniq = [...new Set(rentHistory.map(r=>r.item))];
-            rentF.innerHTML = '<option value="all">الكل</option>' + uniq.map(i=>`<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
+            let uniq = [...new Set(rentHistory.map(r => r.item))];
+            rentF.innerHTML = '<option value="all">الكل</option>' + uniq.map(i => `<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
         }
+        
         let wasteF = document.getElementById('wasteFilterItem');
         if(wasteF){
-            let uniqW = [...new Set(wastageLog.map(w=>w.item))];
-            wasteF.innerHTML = '<option value="all">كل الأصناف</option>' + uniqW.map(i=>`<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
+            let uniqW = [...new Set(wastageLog.map(w => w.item))];
+            wasteF.innerHTML = '<option value="all">كل الأصناف</option>' + uniqW.map(i => `<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
         }
     }
     
@@ -389,212 +651,552 @@
         renderLog();
         renderWastage();
         renderMaster();
+        renderAlerts();
         updateDashboard();
     }
     
     function renderInventory(){
         let map = new Map();
-        inventory.forEach(b=>{
+        inventory.forEach(b => {
             if(!map.has(b.item)) map.set(b.item, {q:0, d:0});
             let s = map.get(b.item);
             s.q += b.qty;
             s.d += b.qty * b.price;
         });
+        
         let tbody = document.querySelector('#summaryTable tbody');
         tbody.innerHTML = '';
         let totalQ = 0, totalD = 0;
+        let itemsCount = 0;
+        
         for(let [item, data] of map.entries()){
             totalQ += data.q;
             totalD += data.d;
-            tbody.innerHTML += `<tr><td><strong>${escapeHtml(item)}</strong></td><td>${data.q}</td><td>${data.d.toFixed(2)} ج.م</td><td><button class="btn btn-sm" onclick="filterDetail('${escapeHtml(item)}')">تفاصيل</button></td></tr>`;
+            itemsCount++;
+            let itemData = masterItems.find(m => m.name === item);
+            let minStock = itemData?.minStock || 5;
+            let percent = totalQ > 0 ? ((data.q / totalQ) * 100).toFixed(1) : 0;
+            let warningClass = data.q < minStock ? ' style="background-color: #fff3cd;"' : '';
+            tbody.innerHTML += `<tr${warningClass}><td><strong>${escapeHtml(item)}</strong></td><td>${data.q}</td><td>${data.d.toFixed(2)} ج.م</td><td>${percent}%</td><td><button class="btn btn-sm" onclick="filterDetail('${escapeHtml(item)}')">تفاصيل</button></td></tr>`;
         }
+        
         document.getElementById('totalQty').innerText = totalQ;
         document.getElementById('totalDaily').innerText = totalD.toFixed(2);
+        document.getElementById('totalItems').innerText = itemsCount;
+        
+        // عرض تنبيهات المخزون المنخفض
+        let invAlerts = document.getElementById('inventoryAlerts');
+        let lowStockItems = [];
+        for(let [item, data] of map.entries()) {
+            let itemData = masterItems.find(m => m.name === item);
+            let minStock = itemData?.minStock || 5;
+            if(data.q < minStock) {
+                lowStockItems.push(`${item} (${data.q} قطعة فقط)`);
+            }
+        }
+        if(lowStockItems.length > 0) {
+            invAlerts.innerHTML = `<div class="badge-warning"><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> مخزون منخفض: ${lowStockItems.join(', ')}</div>`;
+        } else {
+            invAlerts.innerHTML = '';
+        }
+        
         let detailF = document.getElementById('detailFilter');
-        let uniqI = [...new Map(inventory.map(b=>[b.item,b.item])).values()];
-        detailF.innerHTML = '<option value="all">الكل</option>' + uniqI.map(i=>`<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
+        let uniqI = [...new Map(inventory.map(b => [b.item, b.item])).values()];
+        detailF.innerHTML = '<option value="all">الكل</option>' + uniqI.map(i => `<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
         renderDetailed();
     }
     
     function renderDetailed(){
         let filter = document.getElementById('detailFilter').value;
-        let f = filter === 'all' ? inventory : inventory.filter(b=>b.item === filter);
-        f.sort((a,b)=>new Date(a.date)-new Date(b.date));
+        let f = filter === 'all' ? inventory : inventory.filter(b => b.item === filter);
+        f.sort((a, b) => new Date(a.date) - new Date(b.date));
         let div = document.getElementById('detailedInventory');
         if(!f.length){ div.innerHTML = '<p>لا توجد دفعات</p>'; return; }
-        let html = '<table class="premium-table"><thead><tr><th>الصنف</th><th>تاريخ الدخول</th><th>الكمية</th><th>السعر/يوم</th><th>التكلفة اليومية</th></tr></thead><tbody>';
-        f.forEach(b=>{ html += `<tr><td>${escapeHtml(b.item)}</td><td>${b.date}</td><td>${b.qty}</td><td>${b.price.toFixed(2)}</td><td>${(b.qty*b.price).toFixed(2)}</td></tr>`; });
+        let html = '<table class="premium-table"><thead><tr><th>الصنف</th><th>تاريخ الدخول</th><th>الكمية</th><th>السعر/يوم</th><th>التكلفة اليومية</th><th>الأيام المتبقية</th></tr></thead><tbody>';
+        let today = new Date();
+        f.forEach(b => {
+            let days = Math.floor((today - new Date(b.date)) / 86400000);
+            html += `<tr><td>${escapeHtml(b.item)}</td><td>${b.date}</td><td>${b.qty}</td><td>${b.price.toFixed(2)}</td><td>${(b.qty * b.price).toFixed(2)}</td><td>${days} يوم</td></tr>`;
+        });
         html += '</tbody></table>';
         div.innerHTML = html;
     }
-    window.filterDetail = (item)=>{ document.getElementById('detailFilter').value = item; renderDetailed(); };
+    
+    window.filterDetail = (item) => { document.getElementById('detailFilter').value = item; renderDetailed(); };
     
     function renderRent(){
         let filter = document.getElementById('rentFilter')?.value || 'all';
-        let f = filter === 'all' ? rentHistory : rentHistory.filter(r=>r.item === filter);
-        f.sort((a,b)=>new Date(b.date)-new Date(a.date));
+        let typeFilter = document.getElementById('rentType')?.value || 'all';
+        let f = rentHistory.filter(r => (filter === 'all' || r.item === filter) && (typeFilter === 'all' || r.type === typeFilter));
+        f.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
         let tbody = document.querySelector('#rentTable tbody');
         tbody.innerHTML = '';
         let total = 0;
-        f.forEach(r=>{
+        
+        f.forEach(r => {
             total += r.cost;
-            tbody.innerHTML += `<tr><td>${r.date}</td><td>${r.type}</td><td>${escapeHtml(r.item)}</td><td>${r.qty}</td><td>${r.days}</td><td style="color:green;">${r.cost.toFixed(2)}</td><td>${escapeHtml(r.note||r.details)}</td></tr>`;
+            tbody.innerHTML += `<tr><td>${r.date}</td><td>${r.type}</td><td>${escapeHtml(r.item)}</td><td>${r.qty}</td><td>${r.days}</td><td style="color:green; font-weight:bold;">${r.cost.toFixed(2)}</td><td>${escapeHtml(r.note || r.details)}</td></tr>`;
         });
+        
         document.getElementById('totalRentSum').innerText = total.toFixed(2);
         updateDashboard();
     }
     
     function renderWastage(){
         let item = document.getElementById('wasteFilterItem').value;
-        let from = document.getElementById('wasteFrom').value, to = document.getElementById('wasteTo').value;
+        let from = document.getElementById('wasteFrom').value;
+        let to = document.getElementById('wasteTo').value;
         let f = [...wastageLog];
-        if(item !== 'all') f = f.filter(w=>w.item === item);
-        if(from) f = f.filter(w=>w.date >= from);
-        if(to) f = f.filter(w=>w.date <= to);
-        f.sort((a,b)=>new Date(b.date)-new Date(a.date));
+        
+        if(item !== 'all') f = f.filter(w => w.item === item);
+        if(from) f = f.filter(w => w.date >= from);
+        if(to) f = f.filter(w => w.date <= to);
+        
+        f.sort((a, b) => new Date(b.date) - new Date(a.date));
         let tbody = document.querySelector('#wasteTable tbody');
         tbody.innerHTML = '';
         let total = 0;
-        f.forEach(w=>{
+        
+        f.forEach(w => {
             total += w.cost;
             tbody.innerHTML += `<tr><td>${w.date}</td><td>${escapeHtml(w.item)}</td><td>${w.qty}</td><td>${w.days}</td><td>${w.cost.toFixed(2)}</td><td>${escapeHtml(w.note)}</td></tr>`;
         });
+        
         document.getElementById('totalWasteCost').innerText = total.toFixed(2);
+        document.getElementById('wasteCount').innerText = f.length;
     }
     
     function renderLog(){
         let typeF = document.getElementById('logFilter').value;
         let itemF = document.getElementById('logItemFilter').value;
+        let fromF = document.getElementById('logFromDate').value;
+        let toF = document.getElementById('logToDate').value;
+        
         let rows = [];
         for(let t of transactionLog){
-            let typeName = t.type==='in' ? 'توريد' : (t.type==='out' ? 'مرتجع سليم' : 'هالك');
+            let typeName = t.type === 'in' ? 'توريد' : (t.type === 'out' ? 'مرتجع سليم' : 'هالك');
             let cost = 0, days = '—', det = '';
+            
             if(t.type === 'in'){ cost = 0; days = '—'; det = ''; }
-            else{ let rec = rentHistory.find(r=>r.id === t.id); if(rec){ cost = rec.cost; days = rec.days; det = rec.details; } }
-            rows.push({type:typeName, typeEn:t.type, id:t.id, date:t.date, item:t.item, qty:t.qty, price:t.price, days, cost, det, note:t.note||''});
+            else {
+                let rec = rentHistory.find(r => r.id === t.id);
+                if(rec){ cost = rec.cost; days = rec.days; det = rec.details; }
+            }
+            
+            rows.push({
+                type: typeName, typeEn: t.type, id: t.id, date: t.date, item: t.item, 
+                qty: t.qty, price: t.price, days, cost, det, note: t.note || ''
+            });
         }
-        rows.sort((a,b)=>new Date(b.date)-new Date(a.date));
-        let filtered = rows.filter(r=>(typeF==='all'||r.typeEn===typeF) && (itemF==='all'||r.item===itemF));
+        
+        rows.sort((a, b) => new Date(b.date) - new Date(a.date));
+        let filtered = rows.filter(r => 
+            (typeF === 'all' || r.typeEn === typeF) && 
+            (itemF === 'all' || r.item === itemF) &&
+            (!fromF || r.date >= fromF) &&
+            (!toF || r.date <= toF)
+        );
+        
         let tbody = document.querySelector('#logTable tbody');
         tbody.innerHTML = '';
         let inSum = 0, outSum = 0, wasteSum = 0, costSum = 0;
-        filtered.forEach(r=>{
+        
+        filtered.forEach(r => {
             if(r.typeEn === 'in') inSum += r.qty;
             else if(r.typeEn === 'out') outSum += r.qty;
             else wasteSum += r.qty;
             costSum += r.cost;
-            let actions = (currentUser && currentUser.role === 'admin') ? `<button class="btn btn-sm" onclick="editTrans('${r.id}')"><i class="fas fa-edit"></i></button> <button class="btn btn-sm btn-red" onclick="delTrans('${r.id}')"><i class="fas fa-trash"></i></button>` : '';
-            tbody.innerHTML += `<tr class="${r.typeEn==='in'?'log-in':(r.typeEn==='out'?'log-out':'wastage-row')}"><td><i class="fas ${r.typeEn==='in'?'fa-arrow-down':(r.typeEn==='out'?'fa-arrow-up':'fa-exclamation-triangle')}"></i> ${r.type}</td><td>${r.date}</td><td>${escapeHtml(r.item)}</td><td><strong>${r.qty}</strong></td><td>${r.price?r.price.toFixed(2):'—'}</td><td>${r.days}</td><td>${r.cost.toFixed(2)}</td><td>${escapeHtml(r.note||r.det)}</td><td>${actions}</td></tr>`;
+            
+            let rowClass = r.typeEn === 'in' ? 'log-in' : (r.typeEn === 'out' ? 'log-out' : 'log-waste');
+            let actions = (currentUser && currentUser.role === 'admin') ? 
+                `<button class="btn btn-sm" onclick="editTrans('${r.id}')"><i class="fas fa-edit"></i></button> <button class="btn btn-sm btn-red" onclick="delTrans('${r.id}')"><i class="fas fa-trash"></i></button>` : '';
+            
+            tbody.innerHTML += `<tr class="${rowClass}"><td><i class="fas ${r.typeEn === 'in' ? 'fa-arrow-down' : (r.typeEn === 'out' ? 'fa-arrow-up' : 'fa-exclamation-triangle')}"></i> ${r.type}</td><td>${r.date}</td><td>${escapeHtml(r.item)}</td><td><strong>${r.qty}</strong></td><td>${r.price ? r.price.toFixed(2) : '—'}</td><td>${r.days}</td><td>${r.cost.toFixed(2)}</td><td>${escapeHtml(r.note || r.det)}</td><td>${actions}</td></tr>`;
         });
+        
         let totalDiv = document.getElementById('logTotalTop');
-        if(totalDiv) totalDiv.innerHTML = `<span>📊 إجمالي التوريد: ${inSum}</span> <span>📤 إجمالي المرتجع: ${outSum}</span> <span>🗑️ إجمالي الهالك: ${wasteSum}</span> <span>💰 إجمالي التكلفة: ${costSum.toFixed(2)}</span>`;
-        updateDashboard();
+        if(totalDiv) totalDiv.innerHTML = `<span>📊 التوريد: ${inSum}</span> <span>📤 المرتجع: ${outSum}</span> <span>🗑️ الهالك: ${wasteSum}</span> <span>💰 التكلفة: ${costSum.toFixed(2)}</span>`;
+    }
+    
+    function renderAlerts(){
+        let filterType = document.getElementById('alertFilter')?.value || 'all';
+        let filtered = filterType === 'all' ? alerts : alerts.filter(a => a.type === filterType);
+        
+        let div = document.getElementById('alertsList');
+        if(filtered.length === 0) {
+            div.innerHTML = '<p class="badge-light"><i class="fas fa-check-circle"></i> لا توجد تنبيهات حالياً</p>';
+            return;
+        }
+        
+        let html = '';
+        filtered.forEach(alert => {
+            let icon = alert.type === 'low_stock' ? 'fa-box' : alert.type === 'high_waste' ? 'fa-exclamation-triangle' : 'fa-bell';
+            let typeText = alert.type === 'low_stock' ? 'مخزون منخفض' : alert.type === 'high_waste' ? 'هالك مرتفع' : 'تنبيه نظام';
+            html += `<div class="alert alert-warning"><i class="fas ${icon}"></i> <div><strong>${typeText}</strong><br>${alert.message}</div></div>`;
+        });
+        div.innerHTML = html;
     }
     
     function renderMaster(){
         let div = document.getElementById('itemsList');
         if(!div) return;
+        
         if(currentUser?.role !== 'admin'){
-            div.innerHTML = '<p class="badge-light">غير مسموح، هذه الصفحة للمدير فقط</p>';
+            div.innerHTML = '<p class="badge-light">⚠️ غير مسموح، هذه الصفحة للمدير فقط</p>';
             return;
         }
-        div.innerHTML = masterItems.map((m,i)=>`<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #e2e8f0;"><span><strong>${escapeHtml(m.name)}</strong> — ${m.price.toFixed(2)} ج.م/يوم</span><div><button class="btn btn-sm" onclick="editMaster(${i})">تعديل</button> <button class="btn btn-sm btn-red" onclick="delMaster(${i})">حذف</button></div></div>`).join('');
+        
+        div.innerHTML = masterItems.map((m, i) => {
+            let qty = inventory.filter(b => b.item === m.name).reduce((s, b) => s + b.qty, 0);
+            let lowStock = qty < (m.minStock || 5) ? ' style="background-color: #fff3cd;"' : '';
+            return `<div${lowStock} style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #e2e8f0;">
+                <div>
+                    <strong>${escapeHtml(m.name)}</strong> — ${m.price.toFixed(2)} ج.م/يوم
+                    <br><small>المخزون: ${qty} | الحد الأدنى: ${m.minStock || 5}</small>
+                </div>
+                <div><button class="btn btn-sm" onclick="editMaster(${i})">تعديل</button> <button class="btn btn-sm btn-red" onclick="delMaster(${i})">حذف</button></div>
+            </div>`;
+        }).join('');
     }
-    window.editMaster = (i)=>{ if(currentUser?.role !== 'admin') return; let n=prompt('اسم جديد',masterItems[i].name); let p=prompt('سعر يومي',masterItems[i].price); if(n) masterItems[i].name=n; if(p&&!isNaN(parseFloat(p))) masterItems[i].price=parseFloat(p); renderMaster(); pushAll(); rebuild(); };
-    window.delMaster = (i)=>{ if(currentUser?.role !== 'admin') return; if(confirm('حذف الصنف؟')){ masterItems.splice(i,1); renderMaster(); pushAll(); rebuild(); } };
+    
+    window.editMaster = (i) => {
+        if(currentUser?.role !== 'admin') return;
+        let n = prompt('اسم جديد', masterItems[i].name);
+        if(n) masterItems[i].name = n;
+        let p = prompt('سعر يومي', masterItems[i].price);
+        if(p && !isNaN(parseFloat(p))) masterItems[i].price = parseFloat(p);
+        let m = prompt('الحد الأدنى للمخزون', masterItems[i].minStock || 5);
+        if(m && !isNaN(parseInt(m))) masterItems[i].minStock = parseInt(m);
+        renderMaster();
+        pushAll();
+        rebuild();
+        showToast('✅ تم التعديل بنجاح', 'success');
+    };
+    
+    window.delMaster = (i) => {
+        if(currentUser?.role !== 'admin') return;
+        showConfirm('حذف الصنف', `هل تريد حذف "${masterItems[i].name}"؟`, () => {
+            masterItems.splice(i, 1);
+            renderMaster();
+            pushAll();
+            rebuild();
+            showToast('✅ تم الحذف بنجاح', 'success');
+        });
+    };
     
     // ==================== عمليات التوريد والمرتجع ====================
     async function addItem(){
-        if(currentUser?.role !== 'admin') return alert('غير مسموح، صلاحية مدير فقط');
+        if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
+        
         let item = document.getElementById('inItem').value;
         let qty = parseInt(document.getElementById('inQty').value);
         let date = document.getElementById('inDate').value;
-        if(!item || !qty) return alert('أدخل البيانات');
-        if(!date) date = new Date().toISOString().slice(0,10);
-        let price = masterItems.find(m=>m.name===item).price;
+        let note = document.getElementById('inNote').value.trim();
+        let inPrice = parseFloat(document.getElementById('inPrice').value);
+        
+        if(!item || !qty) return showToast('❌ أدخل البيانات المطلوبة', 'error');
+        if(qty < 1) return showToast('❌ الكمية يجب أن تكون أكبر من صفر', 'error');
+        
+        if(!date) date = getCurrentDate();
+        
+        let price = masterItems.find(m => m.name === item)?.price;
+        if(!isNaN(inPrice) && inPrice > 0) price = inPrice;
+        
         let id = Date.now() + '_' + Math.random();
-        transactionLog.push({id, type:'in', date, item, qty, price, note:''});
+        transactionLog.push({id, type:'in', date, item, qty, price, note});
+        
         await pushAll();
         rebuild();
+        
         document.getElementById('inQty').value = '';
-        alert(`✅ تم توريد ${qty} من ${item}`);
+        document.getElementById('inPrice').value = '';
+        document.getElementById('inNote').value = '';
+        
+        showToast(`✅ تم توريد ${qty} من ${item}`, 'success');
     }
     
     async function returnItem(){
-        if(currentUser?.role !== 'admin') return alert('غير مسموح، صلاحية مدير فقط');
+        if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
+        
         let item = document.getElementById('outItem').value;
         let retQ = parseInt(document.getElementById('returnQty').value) || 0;
         let wasteQ = parseInt(document.getElementById('wasteQty').value) || 0;
         let note = document.getElementById('wasteNote').value.trim();
         let date = document.getElementById('outDate').value;
-        if(!item || (retQ===0 && wasteQ===0)) return alert('أدخل الكميات');
-        if(!date) return alert('أدخل التاريخ');
-        let avail = inventory.filter(b=>b.item===item).reduce((s,b)=>s+b.qty,0);
-        if(retQ + wasteQ > avail) return alert(`⚠️ الكمية أكبر من المتاح (${avail})`);
-        if(retQ > 0) transactionLog.push({id:Date.now()+'_'+Math.random(), type:'out', date, item, qty:retQ, price:null, note:''});
-        if(wasteQ > 0) transactionLog.push({id:Date.now()+'_'+Math.random(), type:'waste', date, item, qty:wasteQ, price:null, note:note});
+        
+        if(!item || (retQ === 0 && wasteQ === 0)) return showToast('❌ أدخل البيانات', 'error');
+        if(!date) return showToast('❌ أدخل التاريخ', 'error');
+        
+        let avail = inventory.filter(b => b.item === item).reduce((s, b) => s + b.qty, 0);
+        if(retQ + wasteQ > avail) return showToast(`⚠️ الكمية أكبر من المتاح (${avail})`, 'warning');
+        
+        if(retQ > 0) transactionLog.push({id: Date.now() + '_' + Math.random(), type:'out', date, item, qty:retQ, price:null, note:''});
+        if(wasteQ > 0) transactionLog.push({id: Date.now() + '_' + Math.random(), type:'waste', date, item, qty:wasteQ, price:null, note:note});
+        
         await pushAll();
         rebuild();
+        
         document.getElementById('returnQty').value = '';
         document.getElementById('wasteQty').value = '';
         document.getElementById('wasteNote').value = '';
-        alert(`✅ تم التسجيل: سليم ${retQ}، هالك ${wasteQ}`);
+        
+        showToast(`✅ تم: سليم ${retQ}، هالك ${wasteQ}`, 'success');
     }
     
-    window.editTrans = async(id)=>{ if(currentUser?.role !== 'admin') return; let t=transactionLog.find(t=>t.id==id); if(!t) return; let nq=prompt('كمية جديدة',t.qty); if(nq&&!isNaN(parseInt(nq))) t.qty=parseInt(nq); else return; let nd=prompt('تاريخ جديد (YYYY-MM-DD)',t.date); if(nd&&nd.match(/^\d{4}-\d{2}-\d{2}$/)) t.date=nd; await pushAll(); rebuild(); };
-    window.delTrans = async(id)=>{ if(currentUser?.role !== 'admin') return; if(confirm('حذف العملية؟')){ transactionLog=transactionLog.filter(t=>t.id!=id); await pushAll(); rebuild(); } };
+    window.editTrans = async(id) => {
+        if(currentUser?.role !== 'admin') return;
+        let t = transactionLog.find(t => t.id == id);
+        if(!t) return;
+        let nq = prompt('كمية جديدة', t.qty);
+        if(nq && !isNaN(parseInt(nq))) t.qty = parseInt(nq);
+        else return;
+        let nd = prompt('تاريخ جديد (YYYY-MM-DD)', t.date);
+        if(nd && nd.match(/^\d{4}-\d{2}-\d{2}$/)) t.date = nd;
+        await pushAll();
+        rebuild();
+        showToast('✅ تم التعديل', 'success');
+    };
+    
+    window.delTrans = async(id) => {
+        if(currentUser?.role !== 'admin') return;
+        showConfirm('حذف العملية', 'هل تريد حذف هذه العملية؟', async () => {
+            transactionLog = transactionLog.filter(t => t.id != id);
+            await pushAll();
+            rebuild();
+            showToast('✅ تم الحذف', 'success');
+        });
+    };
     
     // ==================== الإدارة ====================
-    function backup(){ let data={transactionLog,masterItems,wastageLog}; let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'})); a.download=`zad_backup_${new Date().toISOString().slice(0,19)}.json`; a.click(); }
-    function restoreFromFile(file){ if(currentUser?.role !== 'admin') return; let r=new FileReader(); r.onload=e=>{ let d=JSON.parse(e.target.result); if(d.transactionLog) transactionLog=d.transactionLog; if(d.masterItems) masterItems=d.masterItems; if(d.wastageLog) wastageLog=d.wastageLog; pushAll(); rebuild(); alert('✅ تمت الاستعادة'); }; r.readAsText(file); }
-    function resetAll(){ if(currentUser?.role !== 'admin') return; if(confirm('⚠️ مسح كل البيانات نهائياً؟')){ transactionLog=[]; masterItems=defaultItems; wastageLog=[]; pushAll(); rebuild(); } }
-    function exportExcel(){ let rentData=rentHistory.map(r=>({التاريخ:r.date,النوع:r.type,الصنف:r.item,الكمية:r.qty,الأيام:r.days,التكلفة:r.cost,ملاحظات:r.note||r.details})); let logData=transactionLog.map(t=>({النوع:t.type,التاريخ:t.date,الصنف:t.item,الكمية:t.qty,السعر:t.price||'',ملاحظات:t.note||''})); let wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rentData),'سجل الإيجارات'); XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(logData),'سجل الحركات'); XLSX.writeFile(wb,`zad_export_${new Date().toISOString().slice(0,19)}.xlsx`); }
-    async function exportPDF(){ const {jsPDF}=window.jspdf; let el=document.getElementById('logTable'); if(!el) return; let clone=el.cloneNode(true); let wrap=document.createElement('div'); wrap.appendChild(clone); wrap.style.padding='20px'; wrap.style.background='white'; document.body.appendChild(wrap); try{ let canvas=await html2canvas(wrap,{scale:2}); let img=canvas.toDataURL('image/png'); let pdf=new jsPDF('p','mm','a4'); let w=190,h=(canvas.height*w)/canvas.width; pdf.addImage(img,'PNG',10,10,w,h); pdf.save(`zad_report_${new Date().toISOString().slice(0,19)}.pdf`); }catch(e){ alert('فشل'); } document.body.removeChild(wrap); }
-    async function importExcel(file){ if(currentUser?.role !== 'admin') return; let data=await file.arrayBuffer(); let wb=XLSX.read(data,{type:'array'}); let newItems=[],newTrans=[]; for(let name of wb.SheetNames){ let sheet=wb.Sheets[name]; let rows=XLSX.utils.sheet_to_json(sheet,{header:1,defval:""}); if(!rows||rows.length<3) continue; let itemName=name.trim(); let priceFrom=null; let supplies=[]; for(let i=0;i<rows.length;i++){ let row=rows[i]; if(!row||row.length<3) continue; let qty=parseFloat(row[0]); let dateRaw=row[1]; let priceRaw=parseFloat(row[2]); let dateStr=''; if(dateRaw instanceof Date) dateStr=dateRaw.toISOString().slice(0,10); else if(typeof dateRaw==='string'&&dateRaw.match(/\d{4}-\d{2}-\d{2}/)) dateStr=dateRaw.slice(0,10); else if(typeof dateRaw==='number'){ let d=new Date((dateRaw-25569)*86400000); if(!isNaN(d)) dateStr=d.toISOString().slice(0,10); } if(!isNaN(qty)&&qty>0&&dateStr){ supplies.push({qty,date:dateStr,price:priceRaw}); if(priceRaw&&!isNaN(priceRaw)&&priceRaw>0&&!priceFrom) priceFrom=priceRaw; } } if(supplies.length===0) continue; if(!priceFrom){ for(let k=0;k<Math.min(rows.length,5);k++){ let v=rows[k]?.[2]; if(v&&!isNaN(parseFloat(v))&&parseFloat(v)>0){ priceFrom=parseFloat(v); break; } } } let finalPrice=priceFrom||1.0; let existing=masterItems.find(m=>m.name===itemName); if(!existing) newItems.push({name:itemName,price:finalPrice}); else if(confirm(`الصنف "${itemName}" موجود، تحديث السعر إلى ${finalPrice}؟`)) existing.price=finalPrice; for(let sup of supplies){ let exists=transactionLog.some(t=>t.type==='in'&&t.item===itemName&&t.date===sup.date&&t.qty===sup.qty); if(!exists) newTrans.push({type:'in',date:sup.date,item:itemName,qty:sup.qty,price:(sup.price&&sup.price>0)?sup.price:finalPrice}); } } for(let ni of newItems) if(!masterItems.find(m=>m.name===ni.name)) masterItems.push(ni); for(let tr of newTrans) transactionLog.push({id:Date.now()+'_'+Math.random()+tr.item,type:tr.type,date:tr.date,item:tr.item,qty:tr.qty,price:tr.price,note:''}); await pushAll(); rebuild(); alert(`✅ تم استيراد ${newItems.length} صنف و ${newTrans.length} عملية`); }
+    function backup(){
+        let data = {transactionLog, masterItems, wastageLog};
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}));
+        a.download = `zad_backup_${new Date().toISOString().slice(0,19)}.json`;
+        a.click();
+        showToast('✅ تم تحميل النسخة الاحتياطية', 'success');
+    }
+    
+    function restoreFromFile(file){
+        if(currentUser?.role !== 'admin') return;
+        let r = new FileReader();
+        r.onload = e => {
+            try {
+                let d = JSON.parse(e.target.result);
+                if(d.transactionLog) transactionLog = d.transactionLog;
+                if(d.masterItems) masterItems = d.masterItems;
+                if(d.wastageLog) wastageLog = d.wastageLog;
+                pushAll();
+                rebuild();
+                showToast('✅ تمت الاستعادة بنجاح', 'success');
+            } catch(err) {
+                showToast('❌ خطأ في قراءة الملف', 'error');
+            }
+        };
+        r.readAsText(file);
+    }
+    
+    function resetAll(){
+        if(currentUser?.role !== 'admin') return;
+        showConfirm('مسح البيانات', '⚠️ هذا سيمسح جميع البيانات نهائياً، هل تريد المتابعة؟', async () => {
+            transactionLog = [];
+            masterItems = defaultItems;
+            wastageLog = [];
+            await pushAll();
+            rebuild();
+            showToast('✅ تم مسح جميع البيانات', 'success');
+        });
+    }
+    
+    function exportExcel(){
+        let rentData = rentHistory.map(r => ({
+            التاريخ: r.date, النوع: r.type, الصنف: r.item, الكمية: r.qty, 
+            الأيام: r.days, التكلفة: r.cost, ملاحظات: r.note || r.details
+        }));
+        let logData = transactionLog.map(t => ({
+            النوع: t.type, التاريخ: t.date, الصنف: t.item, الكمية: t.qty, 
+            السعر: t.price || '', ملاحظات: t.note || ''
+        }));
+        let summaryData = [];
+        let map = new Map();
+        inventory.forEach(b => {
+            if(!map.has(b.item)) map.set(b.item, 0);
+            map.set(b.item, map.get(b.item) + b.qty);
+        });
+        for(let [item, qty] of map.entries()) {
+            summaryData.push({الصنف: item, الكمية: qty});
+        }
+        
+        let wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rentData), 'الإيجارات');
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(logData), 'سجل الحركات');
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(summaryData), 'ملخص المخزون');
+        XLSX.writeFile(wb, `zad_export_${new Date().toISOString().slice(0,19)}.xlsx`);
+        showToast('✅ تم تصدير Excel', 'success');
+    }
+    
+    async function exportPDF(){
+        const {jsPDF} = window.jspdf;
+        let el = document.getElementById('logTable');
+        if(!el) return;
+        let clone = el.cloneNode(true);
+        let wrap = document.createElement('div');
+        wrap.appendChild(clone);
+        wrap.style.padding = '20px';
+        wrap.style.background = 'white';
+        document.body.appendChild(wrap);
+        try {
+            let canvas = await html2canvas(wrap, {scale:2});
+            let img = canvas.toDataURL('image/png');
+            let pdf = new jsPDF('p','mm','a4');
+            let w = 190, h = (canvas.height * w) / canvas.width;
+            pdf.addImage(img, 'PNG', 10, 10, w, h);
+            pdf.save(`zad_report_${new Date().toISOString().slice(0,19)}.pdf`);
+            showToast('✅ تم تصدير PDF', 'success');
+        } catch(e) {
+            showToast('❌ فشل التصدير', 'error');
+        }
+        document.body.removeChild(wrap);
+    }
+    
+    async function importExcel(file){
+        if(currentUser?.role !== 'admin') return;
+        try {
+            let data = await file.arrayBuffer();
+            let wb = XLSX.read(data, {type:'array'});
+            let newItems = [], newTrans = [];
+            
+            for(let name of wb.SheetNames){
+                let sheet = wb.Sheets[name];
+                let rows = XLSX.utils.sheet_to_json(sheet, {header:1, defval:""});
+                if(!rows || rows.length < 3) continue;
+                
+                let itemName = name.trim();
+                let priceFrom = null;
+                let supplies = [];
+                
+                for(let i = 1; i < rows.length; i++){
+                    let row = rows[i];
+                    if(!row || row.length < 3) continue;
+                    let qty = parseFloat(row[0]);
+                    let dateRaw = row[1];
+                    let priceRaw = parseFloat(row[2]);
+                    let dateStr = '';
+                    
+                    if(dateRaw instanceof Date) dateStr = dateRaw.toISOString().slice(0,10);
+                    else if(typeof dateRaw === 'string' && dateRaw.match(/\d{4}-\d{2}-\d{2}/)) dateStr = dateRaw.slice(0,10);
+                    else if(typeof dateRaw === 'number'){
+                        let d = new Date((dateRaw - 25569) * 86400000);
+                        if(!isNaN(d)) dateStr = d.toISOString().slice(0,10);
+                    }
+                    
+                    if(!isNaN(qty) && qty > 0 && dateStr){
+                        supplies.push({qty, date:dateStr, price:priceRaw});
+                        if(priceRaw && !isNaN(priceRaw) && priceRaw > 0 && !priceFrom) priceFrom = priceRaw;
+                    }
+                }
+                
+                if(supplies.length === 0) continue;
+                if(!priceFrom) priceFrom = 1.0;
+                
+                let existing = masterItems.find(m => m.name === itemName);
+                if(!existing) newItems.push({name:itemName, price:priceFrom, minStock:5});
+                else if(confirm(`الصنف "${itemName}" موجود، تحديث السعر إلى ${priceFrom}؟`)) existing.price = priceFrom;
+                
+                for(let sup of supplies){
+                    let exists = transactionLog.some(t => t.type === 'in' && t.item === itemName && t.date === sup.date && t.qty === sup.qty);
+                    if(!exists) newTrans.push({type:'in', date:sup.date, item:itemName, qty:sup.qty, price:(sup.price && sup.price > 0) ? sup.price : priceFrom});
+                }
+            }
+            
+            for(let ni of newItems) if(!masterItems.find(m => m.name === ni.name)) masterItems.push(ni);
+            for(let tr of newTrans) transactionLog.push({id:Date.now()+'_'+Math.random()+tr.item, type:tr.type, date:tr.date, item:tr.item, qty:tr.qty, price:tr.price, note:''});
+            
+            await pushAll();
+            rebuild();
+            showToast(`✅ تم استيراد ${newItems.length} صنف و ${newTrans.length} عملية`, 'success');
+        } catch(err) {
+            showToast('❌ خطأ في الاستيراد: ' + err.message, 'error');
+        }
+    }
     
     function updateDashboard(){
-        let totalIn = transactionLog.filter(t=>t.type==='in').reduce((s,t)=>s+t.qty,0);
-        let totalOut = transactionLog.filter(t=>t.type==='out').reduce((s,t)=>s+t.qty,0);
-        let totalWaste = transactionLog.filter(t=>t.type==='waste').reduce((s,t)=>s+t.qty,0);
+        let totalIn = transactionLog.filter(t => t.type === 'in').reduce((s, t) => s + t.qty, 0);
+        let totalOut = transactionLog.filter(t => t.type === 'out').reduce((s, t) => s + t.qty, 0);
+        let totalWaste = transactionLog.filter(t => t.type === 'waste').reduce((s, t) => s + t.qty, 0);
         let netActive = totalIn - totalOut - totalWaste;
-        let totalRent = rentHistory.reduce((s,r)=>s+r.cost,0);
+        let totalRent = rentHistory.reduce((s, r) => s + r.cost, 0);
+        let wastePercent = totalIn > 0 ? ((totalWaste / totalIn) * 100).toFixed(1) : 0;
+        
         document.getElementById('dashTotalIn').innerText = totalIn;
         document.getElementById('dashTotalOut').innerText = totalOut;
         document.getElementById('dashTotalWaste').innerText = totalWaste;
         document.getElementById('dashNetActive').innerText = netActive;
         document.getElementById('dashTotalRent').innerText = totalRent.toFixed(2);
+        document.getElementById('dashWastePercent').innerText = wastePercent + '%';
+        
+        // عرض تنبيهات في Dashboard
+        let dashAlerts = document.getElementById('dashAlerts');
+        if(wastePercent > 15) {
+            dashAlerts.innerHTML = `<div class="badge-warning"><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> نسبة الهالك مرتفعة (${wastePercent}%)</div>`;
+        } else {
+            dashAlerts.innerHTML = '';
+        }
     }
     
     let chart1, chart2;
     function drawCharts(){
         let itemsMap = new Map();
-        inventory.forEach(b=>{ itemsMap.set(b.item, (itemsMap.get(b.item)||0) + b.qty); });
+        inventory.forEach(b => { itemsMap.set(b.item, (itemsMap.get(b.item) || 0) + b.qty); });
         let labels = [...itemsMap.keys()], data = [...itemsMap.values()];
+        
         if(chart1) chart1.destroy();
         let ctx1 = document.getElementById('itemChart').getContext('2d');
-        chart1 = new Chart(ctx1, { type:'bar', data:{ labels, datasets:[{ label:'الكمية', data, backgroundColor:'#f39c12', borderRadius:8 }] }, options:{ responsive:true } });
+        chart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: { labels, datasets: [{ label: 'الكمية', data, backgroundColor: '#f39c12', borderRadius: 8 }] },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
         
         let months = [], rentByMonth = new Map(), now = new Date();
-        for(let i=5; i>=0; i--){
-            let d = new Date(now.getFullYear(), now.getMonth()-i, 1);
-            let key = `${d.getFullYear()}-${d.getMonth()+1}`;
+        for(let i = 5; i >= 0; i--){
+            let d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            let key = `${d.getFullYear()}-${d.getMonth() + 1}`;
             let monthName = d.toLocaleDateString('ar', {year:'numeric', month:'short'});
             months.push(monthName);
             rentByMonth.set(key, 0);
         }
-        rentHistory.forEach(r=>{
+        
+        rentHistory.forEach(r => {
             let date = new Date(r.date);
-            let key = `${date.getFullYear()}-${date.getMonth()+1}`;
+            let key = `${date.getFullYear()}-${date.getMonth() + 1}`;
             if(rentByMonth.has(key)) rentByMonth.set(key, rentByMonth.get(key) + r.cost);
         });
-        let rentData = months.map((_,idx)=>{
-            let d = new Date(now.getFullYear(), now.getMonth()-(5-idx), 1);
-            let key = `${d.getFullYear()}-${d.getMonth()+1}`;
+        
+        let rentData = months.map((_, idx) => {
+            let d = new Date(now.getFullYear(), now.getMonth() - (5 - idx), 1);
+            let key = `${d.getFullYear()}-${d.getMonth() + 1}`;
             return rentByMonth.get(key) || 0;
         });
+        
         if(chart2) chart2.destroy();
         let ctx2 = document.getElementById('rentChart').getContext('2d');
-        chart2 = new Chart(ctx2, { type:'line', data:{ labels:months, datasets:[{ label:'الإيجار (ج.م)', data:rentData, borderColor:'#f39c12', backgroundColor:'rgba(243,156,18,0.1)', fill:true, tension:0.3 }] }, options:{ responsive:true } });
+        chart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'الإيجار (ج.م)',
+                    data: rentData,
+                    borderColor: '#f39c12',
+                    backgroundColor: 'rgba(243,156,18,0.1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: true } } }
+        });
     }
     
     // ==================== إدارة المستخدمين والأجهزة ====================
@@ -602,72 +1204,77 @@
         // عرض الأجهزة النشطة
         let devicesDiv = document.getElementById('devicesList');
         if(devicesDiv){
-            if(sessions.length === 0) devicesDiv.innerHTML = '<p class="badge-light">لا توجد أجهزة نشطة حالياً</p>';
-            else{
+            if(sessions.length === 0) devicesDiv.innerHTML = '<p class="badge-light">لا توجد أجهزة نشطة</p>';
+            else {
                 let html = '<table class="premium-table"><thead><tr><th>الجهاز</th><th>المتصفح</th><th>آخر نشاط</th><th>المستخدم</th><th>الصلاحية</th></tr></thead><tbody>';
-                sessions.forEach(s=>{
-                    html += `<tr><td>${escapeHtml(s.deviceName||'غير معروف')}</td><td>${escapeHtml(s.browser)}</td><td>${new Date(s.lastActive).toLocaleString()}</td><td>${escapeHtml(s.username)}</td><td>${s.role==='admin'?'مدير':'مشاهد'}</td></tr>`;
+                sessions.forEach(s => {
+                    html += `<tr><td>${escapeHtml(s.deviceName || 'غير معروف')}</td><td>${escapeHtml(s.browser)}</td><td>${new Date(s.lastActive).toLocaleString('ar')}</td><td>${escapeHtml(s.username)}</td><td>${s.role === 'admin' ? '👑 مدير' : '👁️ مشاهد'}</td></tr>`;
                 });
                 html += '</tbody></table>';
                 devicesDiv.innerHTML = html;
             }
         }
-        // عرض المستخدمين مع أزرار حذف وتعديل (للمدير فقط)
+        
+        // عرض المستخدمين
         let usersDiv = document.getElementById('usersListDisplay');
         if(usersDiv){
             if(Object.keys(usersList).length === 0) usersDiv.innerHTML = '<p class="badge-light">لا يوجد مستخدمون</p>';
-            else{
-                let html = '<table class="premium-table"><thead><tr><th>اسم المستخدم</th><th>الصلاحية</th><th></th></tr></thead><tbody>';
+            else {
+                let html = '<table class="premium-table"><thead><tr><th>المستخدم</th><th>الصلاحية</th><th></th></tr></thead><tbody>';
                 for(let u in usersList){
                     let actions = '';
                     if(currentUser && currentUser.role === 'admin' && u !== 'admin'){
-                        actions = `<button class="btn btn-sm btn-red" onclick="deleteUser('${escapeHtml(u)}')">حذف</button> <button class="btn btn-sm" onclick="editUser('${escapeHtml(u)}')">تعديل</button>`;
+                        actions = `<button class="btn btn-sm btn-red" onclick="deleteUser('${escapeHtml(u)}')"><i class="fas fa-trash"></i> حذف</button> <button class="btn btn-sm" onclick="editUser('${escapeHtml(u)}')"><i class="fas fa-edit"></i> تعديل</button>`;
                     } else if(u === 'admin'){
-                        actions = '<span class="badge-light">(لا يمكن تعديل المدير الرئيسي)</span>';
+                        actions = '<span style="color: #f39c12;">👑 المدير الرئيسي</span>';
                     }
-                    html += `<tr><td>${escapeHtml(u)}</td><td>${usersList[u].role === 'admin' ? 'مدير' : 'مشاهد'}</td><td>${actions}</td></tr>`;
+                    html += `<tr><td><strong>${escapeHtml(u)}</strong></td><td>${usersList[u].role === 'admin' ? '👑 مدير' : '👁️ مشاهد'}</td><td>${actions}</td></tr>`;
                 }
                 html += '</tbody></table>';
                 usersDiv.innerHTML = html;
             }
         }
+        
+        document.getElementById('userInfo').innerText = currentUser ? `مرحباً ${currentUser.username} (${currentUser.role === 'admin' ? '👑 مدير' : '👁️ مشاهد'})` : '';
     }
     
-    window.deleteUser = (username)=>{
-        if(currentUser?.role !== 'admin') return alert('غير مسموح');
-        if(username === 'admin') return alert('لا يمكن حذف المدير الرئيسي');
-        if(confirm(`هل تريد حذف المستخدم "${username}" نهائياً؟`)){
+    window.deleteUser = (username) => {
+        if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
+        if(username === 'admin') return showToast('❌ لا يمكن حذف المدير الرئيسي', 'error');
+        showConfirm('حذف المستخدم', `هل تريد حذف "${username}"؟`, () => {
             delete usersList[username];
             pushAll();
             updateUsersAndDevices();
-            alert(`✅ تم حذف المستخدم ${username}`);
-        }
+            showToast(`✅ تم حذف ${username}`, 'success');
+        });
     };
     
-    window.editUser = (username)=>{
-        if(currentUser?.role !== 'admin') return alert('غير مسموح');
-        if(username === 'admin') return alert('لا يمكن تعديل المدير الرئيسي');
+    window.editUser = (username) => {
+        if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
+        if(username === 'admin') return showToast('❌ لا يمكن تعديل المدير الرئيسي', 'error');
         let newPass = prompt('أدخل كلمة المرور الجديدة', usersList[username].password);
         if(newPass && newPass.trim() !== ''){
             usersList[username].password = newPass.trim();
-            let newRole = confirm('تغيير الصلاحية؟ (OK = مدير، Cancel = مشاهد)') ? 'admin' : 'viewer';
+            let newRole = confirm('تغيير إلى مدير؟ (OK = مدير، Cancel = مشاهد)') ? 'admin' : 'viewer';
             usersList[username].role = newRole;
             pushAll();
             updateUsersAndDevices();
-            alert(`✅ تم تعديل المستخدم ${username}`);
+            showToast(`✅ تم تعديل ${username}`, 'success');
         }
     };
     
     function addNewUser(){
-        if(currentUser?.role !== 'admin') return alert('غير مسموح');
+        if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
         let username = document.getElementById('newUsername').value.trim();
         let pass = document.getElementById('newUserPass').value.trim();
         let role = document.getElementById('newUserRole').value;
-        if(!username || !pass) return alert('أدخل اسم المستخدم وكلمة المرور');
-        if(usersList[username]) return alert('المستخدم موجود بالفعل');
+        
+        if(!username || !pass) return showToast('❌ أدخل البيانات المطلوبة', 'error');
+        if(usersList[username]) return showToast('⚠️ المستخدم موجود بالفعل', 'warning');
+        
         usersList[username] = { password: pass, role: role };
         pushAll();
-        alert('✅ تم إضافة المستخدم بنجاح');
+        showToast('✅ تم إضافة المستخدم بنجاح', 'success');
         document.getElementById('newUsername').value = '';
         document.getElementById('newUserPass').value = '';
         updateUsersAndDevices();
@@ -683,30 +1290,37 @@
                 break;
             }
         }
+        
         if(found){
             currentUser = found;
-            // حفظ الجلسة في localStorage لتبقى بعد الرفرش
-            localStorage.setItem('zad_logged_user', JSON.stringify({ username: currentUser.username, role: currentUser.role }));
-            // تسجيل الجهاز النشط
+            localStorage.setItem('zad_logged_user', JSON.stringify(currentUser));
+            
             let deviceName = navigator.userAgent.split('(')[1]?.split(')')[0] || 'جهاز غير معروف';
             let browser = navigator.userAgent.split(' ').pop();
             let sessionId = Date.now() + '_' + Math.random();
             sessions = sessions.filter(s => s.username !== currentUser.username);
             sessions.push({ id: sessionId, username: currentUser.username, role: currentUser.role, deviceName, browser, lastActive: Date.now() });
+            
             pushAll();
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
+            
             if(currentUser.role !== 'admin'){
                 document.getElementById('itemsTab').style.display = 'none';
                 document.getElementById('adminTab').style.display = 'none';
                 document.getElementById('usersTab').style.display = 'none';
+                document.getElementById('reportsTab').style.display = 'none';
             } else {
                 document.getElementById('itemsTab').style.display = 'inline-flex';
                 document.getElementById('adminTab').style.display = 'inline-flex';
                 document.getElementById('usersTab').style.display = 'inline-flex';
+                document.getElementById('reportsTab').style.display = 'inline-flex';
             }
+            
             loadAll();
+            showToast(`✅ مرحباً ${currentUser.username}`, 'success');
         } else {
+            showToast('❌ كلمة المرور غير صحيحة', 'error');
             document.getElementById('loginError').innerText = '❌ كلمة المرور غير صحيحة';
         }
     }
@@ -719,14 +1333,13 @@
         document.getElementById('loginOverlay').style.display = 'flex';
         document.getElementById('mainApp').style.display = 'none';
         document.getElementById('loginPassword').value = '';
-        document.getElementById('loginError').innerText = '';
+        showToast('👋 تم تسجيل الخروج', 'info');
     }
     
-    // التحقق من وجود جلسة محفوظة عند تحميل الصفحة
     function checkSavedSession(){
         let saved = localStorage.getItem('zad_logged_user');
         if(saved){
-            try{
+            try {
                 let user = JSON.parse(saved);
                 if(usersList[user.username] && usersList[user.username].role === user.role){
                     currentUser = user;
@@ -736,64 +1349,92 @@
                         document.getElementById('itemsTab').style.display = 'none';
                         document.getElementById('adminTab').style.display = 'none';
                         document.getElementById('usersTab').style.display = 'none';
+                        document.getElementById('reportsTab').style.display = 'none';
                     } else {
                         document.getElementById('itemsTab').style.display = 'inline-flex';
                         document.getElementById('adminTab').style.display = 'inline-flex';
                         document.getElementById('usersTab').style.display = 'inline-flex';
+                        document.getElementById('reportsTab').style.display = 'inline-flex';
                     }
                     loadAll();
                     return true;
                 }
-            } catch(e){}
+            } catch(e) {}
         }
         return false;
     }
     
     // ==================== ربط الأحداث ====================
     document.getElementById('loginBtn')?.addEventListener('click', login);
-    document.getElementById('loginPassword')?.addEventListener('keypress', e=>{ if(e.key === 'Enter') login(); });
+    document.getElementById('loginPassword')?.addEventListener('keypress', e => { if(e.key === 'Enter') login(); });
     document.getElementById('logoutBtn')?.addEventListener('click', logout);
     document.getElementById('addBtn')?.addEventListener('click', addItem);
     document.getElementById('returnBtn')?.addEventListener('click', returnItem);
-    document.getElementById('saveItemBtn')?.addEventListener('click', ()=>{
-        if(currentUser?.role !== 'admin') return;
+    document.getElementById('saveItemBtn')?.addEventListener('click', () => {
+        if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
         let n = document.getElementById('newItemName').value.trim();
         let p = parseFloat(document.getElementById('newItemPrice').value);
-        if(!n || isNaN(p)) return alert('أدخل الاسم والسعر');
-        let ex = masterItems.find(m=>m.name === n);
-        if(ex) ex.price = p;
-        else masterItems.push({name:n, price:p});
+        let m = parseInt(document.getElementById('newItemMin').value) || 5;
+        if(!n || isNaN(p)) return showToast('❌ أدخل الاسم والسعر', 'error');
+        let ex = masterItems.find(m => m.name === n);
+        if(ex) { ex.price = p; ex.minStock = m; }
+        else masterItems.push({name: n, price: p, minStock: m});
         renderMaster();
         pushAll();
         rebuild();
         document.getElementById('newItemName').value = '';
         document.getElementById('newItemPrice').value = '';
+        document.getElementById('newItemMin').value = '';
+        showToast('✅ تم الحفظ', 'success');
     });
     document.getElementById('backupBtn')?.addEventListener('click', backup);
-    document.getElementById('restoreFile')?.addEventListener('change', e=>{ if(e.target.files.length) restoreFromFile(e.target.files[0]); e.target.value = ''; });
+    document.getElementById('restoreFile')?.addEventListener('change', e => { if(e.target.files.length) restoreFromFile(e.target.files[0]); e.target.value = ''; });
     document.getElementById('resetAllBtn')?.addEventListener('click', resetAll);
     document.getElementById('refreshLogBtn')?.addEventListener('click', renderLog);
     document.getElementById('logFilter')?.addEventListener('change', renderLog);
     document.getElementById('logItemFilter')?.addEventListener('change', renderLog);
+    document.getElementById('logFromDate')?.addEventListener('change', renderLog);
+    document.getElementById('logToDate')?.addEventListener('change', renderLog);
     document.getElementById('refreshDetailBtn')?.addEventListener('click', renderDetailed);
     document.getElementById('detailFilter')?.addEventListener('change', renderDetailed);
     document.getElementById('refreshRentBtn')?.addEventListener('click', renderRent);
     document.getElementById('rentFilter')?.addEventListener('change', renderRent);
+    document.getElementById('rentType')?.addEventListener('change', renderRent);
     document.getElementById('filterWasteBtn')?.addEventListener('click', renderWastage);
-    document.getElementById('resetWasteBtn')?.addEventListener('click', ()=>{ document.getElementById('wasteFrom').value=''; document.getElementById('wasteTo').value=''; document.getElementById('wasteFilterItem').value='all'; renderWastage(); });
+    document.getElementById('resetWasteBtn')?.addEventListener('click', () => {
+        document.getElementById('wasteFrom').value = '';
+        document.getElementById('wasteTo').value = '';
+        document.getElementById('wasteFilterItem').value = 'all';
+        renderWastage();
+    });
+    document.getElementById('alertFilter')?.addEventListener('change', renderAlerts);
+    document.getElementById('clearAlertsBtn')?.addEventListener('click', () => {
+        alerts = [];
+        updateAlertBadge();
+        renderAlerts();
+        showToast('✅ تم مسح التنبيهات', 'success');
+    });
     document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
     document.getElementById('exportPdfBtn')?.addEventListener('click', exportPDF);
-    document.getElementById('importExcelBtn')?.addEventListener('click', ()=>{ let inp=document.createElement('input'); inp.type='file'; inp.accept='.xlsx,.xls'; inp.onchange=e=>{ if(e.target.files.length) importExcel(e.target.files[0]); inp.remove(); }; inp.click(); });
+    document.getElementById('importExcelBtn')?.addEventListener('click', () => {
+        let inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = '.xlsx,.xls';
+        inp.onchange = e => { if(e.target.files.length) importExcel(e.target.files[0]); inp.remove(); };
+        inp.click();
+    });
     document.getElementById('addUserBtn')?.addEventListener('click', addNewUser);
     
-    let today = new Date().toISOString().slice(0,10);
+    let today = getCurrentDate();
     if(document.getElementById('inDate')) document.getElementById('inDate').value = today;
     if(document.getElementById('outDate')) document.getElementById('outDate').value = today;
+    if(document.getElementById('reportFrom')) document.getElementById('reportFrom').value = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().slice(0, 10);
+    if(document.getElementById('reportTo')) document.getElementById('reportTo').value = today;
     
-    document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
         let id = btn.getAttribute('data-tab');
-        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         btn.classList.add('active');
         if(id === 'inventory') renderInventory();
@@ -801,13 +1442,13 @@
         if(id === 'log') renderLog();
         if(id === 'wastage') renderWastage();
         if(id === 'items') renderMaster();
+        if(id === 'alerts') renderAlerts();
         if(id === 'dashboard'){ drawCharts(); updateDashboard(); }
         if(id === 'users') updateUsersAndDevices();
     }));
     
-    // بدء التشغيل: التحقق من الجلسة أو عرض شاشة الدخول
+    // التحقق من الجلسة عند التحميل
     if(!checkSavedSession()){
-        // شاشة الدخول ستظهر تلقائياً
         document.getElementById('loginOverlay').style.display = 'flex';
         document.getElementById('mainApp').style.display = 'none';
     }
