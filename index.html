@@ -14,7 +14,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <style>
         :root {
-            /* Light Mode Colors */
             --bg-primary: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
             --bg-card: rgba(255,255,255,0.96);
             --bg-secondary: rgba(30,41,59,0.8);
@@ -35,7 +34,6 @@
         }
 
         [data-theme="dark"] {
-            /* Dark Mode Colors */
             --bg-primary: linear-gradient(145deg, #000000 0%, #1a1a2e 100%);
             --bg-card: rgba(26,26,46,0.95);
             --bg-secondary: rgba(42,42,68,0.9);
@@ -60,7 +58,6 @@
         body { background: var(--bg-primary); min-height: 100vh; padding: 12px; }
         .container { max-width: 1400px; margin: 0 auto; }
         
-        /* تحسينات Toast النوتيفكيشن */
         .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 10001; }
         .toast { background: var(--bg-card); color: var(--text-primary); padding: 16px 20px; border-radius: 12px; 
                  margin-bottom: 10px; box-shadow: 0 4px 12px var(--shadow); display: flex; align-items: center; 
@@ -78,7 +75,6 @@
                             -webkit-background-clip: text; background-clip: text; color: transparent; }
         .designer-credit-header { font-size: 0.7rem; color: var(--accent-gold); }
         
-        /* Dark Mode Toggle Button */
         .theme-toggle { position: relative; display: inline-flex; align-items: center; gap: 8px; 
                        background: var(--bg-secondary); padding: 8px 16px; border-radius: 40px; 
                        cursor: pointer; border: 1px solid var(--border-color); transition: all 0.3s; }
@@ -183,19 +179,16 @@
         .logout-btn { background: var(--accent-red); color: white; border: none; padding: 5px 12px; 
                      border-radius: 40px; font-size: 0.7rem; cursor: pointer; }
         
-        /* الألوان حسب النوع */
         .log-in { background: rgba(16,185,129,0.1); }
         .log-out { background: rgba(59,130,246,0.1); }
         .log-waste { background: rgba(239,68,68,0.1); }
         
-        /* جدول البيانات المتقدم */
         .data-table-wrapper { overflow-x: auto; }
         .sort-header { cursor: pointer; user-select: none; }
         .sort-header:after { content: ' ⇅'; font-size: 0.8rem; }
         .sort-header.asc:after { content: ' ↑'; }
         .sort-header.desc:after { content: ' ↓'; }
         
-        /* Modal للتأكيد */
         .modal { display: none; position: fixed; z-index: 10002; left: 0; top: 0; width: 100%; 
                 height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
         .modal.show { display: block; }
@@ -206,7 +199,6 @@
         .modal-content p { color: var(--text-secondary); }
         .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
         
-        /* نظام الإنذارات */
         .alert { padding: 12px; border-radius: 12px; margin-bottom: 10px; display: flex; 
                 align-items: center; gap: 10px; }
         .alert-danger { background: rgba(239,68,68,0.2); color: var(--accent-red); 
@@ -220,7 +212,6 @@
         
         footer { text-align:center; margin-top:20px; color: var(--text-secondary); }
         
-        /* Version Badge */
         .version-badge { position: fixed; bottom: 10px; left: 10px; background: var(--accent-gold); 
                         color: #0f172a; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; 
                         font-weight: 700; z-index: 1000; box-shadow: 0 2px 8px var(--shadow); }
@@ -250,7 +241,6 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Modal للتأكيد -->
 <div id="confirmModal" class="modal">
     <div class="modal-content">
         <div class="modal-header" id="confirmTitle">تأكيد العملية</div>
@@ -272,7 +262,6 @@
             </div>
         </div>
         <div class="designer-credit-header">🚀 النسخة المحسّنة Pro 2.1 | المهندس عبدالرحمن بن محمد الكيلانى</div>
-        
         <div class="header-actions">
             <div class="header-left">
                 <input type="text" class="search-box" id="globalSearch" placeholder="🔍 بحث سريع...">
@@ -512,8 +501,6 @@
         localStorage.setItem('zad_theme', newTheme);
         updateThemeUI(newTheme);
         showToast(`✨ تم التبديل إلى ${newTheme === 'dark' ? 'الوضع الداكن' : 'الوضع الفاتح'}`, 'success');
-        
-        // إعادة رسم الرسوم البيانية للتوافق مع الثيم الجديد
         setTimeout(() => drawCharts(), 300);
     }
 
@@ -529,7 +516,7 @@
         }
     }
 
-    // ==================== نظام التنبيهات (Toast) ====================
+    // ==================== Toast ====================
     function showToast(message, type = 'success', duration = 3000) {
         const container = document.getElementById('toastContainer');
         const toast = document.createElement('div');
@@ -542,7 +529,6 @@
         setTimeout(() => toast.remove(), duration);
     }
 
-    // نظام التأكيد
     let confirmCallback = null;
     function showConfirm(title, message, callback) {
         document.getElementById('confirmTitle').innerText = title;
@@ -559,7 +545,7 @@
         closeConfirm();
     }
 
-    // ==================== إعدادات Firebase ====================
+    // ==================== Firebase ====================
     const firebaseConfig = {
         apiKey: "AIzaSyA7rWbvkT8zHxjIPmOCKa-8WgVv1q2nwqY",
         authDomain: "zad-steel.firebaseapp.com",
@@ -573,7 +559,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ==================== المتغيرات العامة ====================
+    // ==================== المتغيرات ====================
     let transactionLog = [], masterItems = [], wastageLog = [], inventory = [], rentHistory = [], alerts = [];
     const defaultItems = [
         {name:"قائم 3 متر",price:1.55,minStock:5},
@@ -595,28 +581,17 @@
     function formatCurrency(num) { return new Intl.NumberFormat('ar-EG', { style: 'currency', currency: 'EGP' }).format(num); }
     function getCurrentDate() { return new Date().toISOString().slice(0,10); }
     
-    // ==================== نظام الإنذارات ====================
+    // ==================== الإنذارات ====================
     function addAlert(type, message, itemName = null) {
-        alerts.push({
-            id: Date.now(),
-            type: type,
-            message: message,
-            itemName: itemName,
-            date: new Date(),
-            read: false
-        });
+        alerts.push({ id: Date.now(), type, message, itemName, date: new Date(), read: false });
         updateAlertBadge();
     }
 
     function updateAlertBadge() {
         let unreadCount = alerts.filter(a => !a.read).length;
         let badge = document.getElementById('alertBadge');
-        if(unreadCount > 0) {
-            badge.innerText = unreadCount;
-            badge.style.display = 'flex';
-        } else {
-            badge.style.display = 'none';
-        }
+        if(unreadCount > 0) { badge.innerText = unreadCount; badge.style.display = 'flex'; }
+        else { badge.style.display = 'none'; }
     }
 
     function checkAlerts() {
@@ -625,32 +600,26 @@
             if(!map.has(b.item)) map.set(b.item, 0);
             map.set(b.item, map.get(b.item) + b.qty);
         });
-        
         for(let [item, qty] of map.entries()) {
             let itemData = masterItems.find(m => m.name === item);
             let minStock = itemData?.minStock || 5;
             if(qty < minStock) {
                 let existingAlert = alerts.find(a => a.type === 'low_stock' && a.itemName === item);
-                if(!existingAlert) {
-                    addAlert('low_stock', `المخزون منخفض: ${item} (${qty} فقط)`, item);
-                }
+                if(!existingAlert) addAlert('low_stock', `المخزون منخفض: ${item} (${qty} فقط)`, item);
             }
         }
-
-        let totalWaste = wastageLog.length;
-        let totalTrans = transactionLog.length;
-        if(totalTrans > 0) {
-            let wastePercent = (totalWaste / totalTrans) * 100;
+        let totalWaste = transactionLog.filter(t => t.type === 'waste').reduce((s,t) => s+t.qty, 0);
+        let totalIn = transactionLog.filter(t => t.type === 'in').reduce((s,t) => s+t.qty, 0);
+        if(totalIn > 0) {
+            let wastePercent = (totalWaste / totalIn) * 100;
             if(wastePercent > 10) {
                 let existingAlert = alerts.find(a => a.type === 'high_waste');
-                if(!existingAlert) {
-                    addAlert('high_waste', `نسبة الهالك مرتفعة: ${wastePercent.toFixed(1)}%`);
-                }
+                if(!existingAlert) addAlert('high_waste', `نسبة الهالك مرتفعة: ${wastePercent.toFixed(1)}%`);
             }
         }
     }
 
-    // ==================== حفظ و تحميل البيانات ====================
+    // ==================== حفظ و تحميل ====================
     async function pushAll(){
         try {
             await db.ref('transactionLog').set(transactionLog);
@@ -658,10 +627,8 @@
             await db.ref('wastageLog').set(wastageLog);
             await db.ref('users').set(usersList);
             await db.ref('sessions').set(sessions);
-            console.log("✅ تم حفظ البيانات بنجاح");
         } catch(e) {
             showToast('خطأ في الحفظ: ' + e.message, 'error');
-            console.error(e);
         }
     }
     
@@ -673,17 +640,15 @@
             let u = (await db.ref('users').once('value')).val();
             if(u) usersList = u;
             let s = (await db.ref('sessions').once('value')).val();
-            if(s) sessions = s;
+            if(s) sessions = Array.isArray(s) ? s : Object.values(s);
             if(masterItems.length === 0) masterItems = defaultItems;
-            console.log("✅ تم تحميل البيانات بنجاح");
             rebuild();
         } catch(e) {
             showToast('خطأ في التحميل: ' + e.message, 'error');
-            console.error(e);
         }
     }
     
-    // ==================== إعادة بناء المخزون والإيجارات ====================
+    // ==================== إعادة بناء المخزون ====================
     function rebuild(){
         inventory = [];
         rentHistory = [];
@@ -697,42 +662,27 @@
                 let rem = t.qty;
                 let totalCost = 0, totalDays = 0, totalRet = 0, parts = [];
                 let newInv = [];
-                
                 for(let b of inventory){
                     if(b.item !== t.item){ newInv.push(b); continue; }
                     if(rem === 0){ newInv.push(b); continue; }
-                    
                     let days = Math.max(1, Math.ceil((new Date(t.date) - new Date(b.date)) / 86400000));
                     if(b.qty <= rem){
                         let c = b.qty * b.price * days;
-                        totalCost += c;
-                        totalRet += b.qty;
-                        totalDays += days * b.qty;
-                        parts.push(`${b.qty}×${days}`);
-                        rem -= b.qty;
+                        totalCost += c; totalRet += b.qty; totalDays += days * b.qty;
+                        parts.push(`${b.qty}×${days}`); rem -= b.qty;
                     } else {
                         let c = rem * b.price * days;
-                        totalCost += c;
-                        totalRet += rem;
-                        totalDays += days * rem;
-                        parts.push(`${rem}×${days}`);
-                        b.qty -= rem;
-                        newInv.push(b);
-                        rem = 0;
+                        totalCost += c; totalRet += rem; totalDays += days * rem;
+                        parts.push(`${rem}×${days}`); b.qty -= rem; newInv.push(b); rem = 0;
                     }
                 }
-                
                 if(totalRet > 0){
                     let rec = {
-                        id: t.id,
-                        date: t.date,
+                        id: t.id, date: t.date,
                         type: t.type === 'out' ? 'مرتجع سليم' : 'هالك',
-                        item: t.item,
-                        qty: totalRet,
+                        item: t.item, qty: totalRet,
                         days: Math.round(totalDays / totalRet),
-                        cost: totalCost,
-                        details: parts.join(' + '),
-                        note: t.note || ''
+                        cost: totalCost, details: parts.join(' + '), note: t.note || ''
                     };
                     rentHistory.push(rec);
                     if(t.type === 'waste') wasteTemp.push(rec);
@@ -756,23 +706,19 @@
             let itemData = masterItems.find(x => x.name === i);
             return `<option value="${escapeHtml(i)}">${escapeHtml(i)} (${itemData.price.toFixed(2)} ج.م)</option>`;
         }).join('');
-        
         if(document.getElementById('inItem')) document.getElementById('inItem').innerHTML = opts;
         if(document.getElementById('outItem')) document.getElementById('outItem').innerHTML = opts;
-        
         let logItem = document.getElementById('logItemFilter');
         if(logItem){
             let cur = logItem.value;
             logItem.innerHTML = '<option value="all">كل الأصناف</option>' + items.map(i => `<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
             if(items.includes(cur)) logItem.value = cur;
         }
-        
         let rentF = document.getElementById('rentFilter');
         if(rentF){
             let uniq = [...new Set(rentHistory.map(r => r.item))];
             rentF.innerHTML = '<option value="all">الكل</option>' + uniq.map(i => `<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
         }
-        
         let wasteF = document.getElementById('wasteFilterItem');
         if(wasteF){
             let uniqW = [...new Set(wastageLog.map(w => w.item))];
@@ -780,61 +726,40 @@
         }
     }
     
-    // ==================== دوال العرض ====================
+    // ==================== العرض ====================
     function renderAll(){
-        renderInventory();
-        renderRent();
-        renderLog();
-        renderWastage();
-        renderMaster();
-        renderAlerts();
-        updateDashboard();
+        renderInventory(); renderRent(); renderLog();
+        renderWastage(); renderMaster(); renderAlerts(); updateDashboard();
     }
     
     function renderInventory(){
         let map = new Map();
         inventory.forEach(b => {
             if(!map.has(b.item)) map.set(b.item, {q:0, d:0});
-            let s = map.get(b.item);
-            s.q += b.qty;
-            s.d += b.qty * b.price;
+            let s = map.get(b.item); s.q += b.qty; s.d += b.qty * b.price;
         });
-        
         let tbody = document.querySelector('#summaryTable tbody');
         tbody.innerHTML = '';
-        let totalQ = 0, totalD = 0;
-        let itemsCount = 0;
-        
+        let totalQ = 0, totalD = 0, itemsCount = 0;
         for(let [item, data] of map.entries()){
-            totalQ += data.q;
-            totalD += data.d;
-            itemsCount++;
+            totalQ += data.q; totalD += data.d; itemsCount++;
             let itemData = masterItems.find(m => m.name === item);
             let minStock = itemData?.minStock || 5;
             let percent = totalQ > 0 ? ((data.q / totalQ) * 100).toFixed(1) : 0;
             let warningClass = data.q < minStock ? ' style="background-color: rgba(251,191,36,0.2);"' : '';
             tbody.innerHTML += `<tr${warningClass}><td><strong>${escapeHtml(item)}</strong></td><td>${data.q}</td><td>${data.d.toFixed(2)} ج.م</td><td>${percent}%</td><td><button class="btn btn-sm" onclick="filterDetail('${escapeHtml(item)}')">تفاصيل</button></td></tr>`;
         }
-        
         document.getElementById('totalQty').innerText = totalQ;
         document.getElementById('totalDaily').innerText = totalD.toFixed(2);
         document.getElementById('totalItems').innerText = itemsCount;
-        
         let invAlerts = document.getElementById('inventoryAlerts');
         let lowStockItems = [];
         for(let [item, data] of map.entries()) {
             let itemData = masterItems.find(m => m.name === item);
             let minStock = itemData?.minStock || 5;
-            if(data.q < minStock) {
-                lowStockItems.push(`${item} (${data.q} قطعة فقط)`);
-            }
+            if(data.q < minStock) lowStockItems.push(`${item} (${data.q} قطعة فقط)`);
         }
-        if(lowStockItems.length > 0) {
-            invAlerts.innerHTML = `<div class="badge-warning"><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> مخزون منخفض: ${lowStockItems.join(', ')}</div>`;
-        } else {
-            invAlerts.innerHTML = '';
-        }
-        
+        invAlerts.innerHTML = lowStockItems.length > 0 ? `<div class="badge-warning"><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> مخزون منخفض: ${lowStockItems.join(', ')}</div>` : '';
         let detailF = document.getElementById('detailFilter');
         let uniqI = [...new Map(inventory.map(b => [b.item, b.item])).values()];
         detailF.innerHTML = '<option value="all">الكل</option>' + uniqI.map(i => `<option value="${escapeHtml(i)}">${escapeHtml(i)}</option>`).join('');
@@ -864,16 +789,13 @@
         let typeFilter = document.getElementById('rentType')?.value || 'all';
         let f = rentHistory.filter(r => (filter === 'all' || r.item === filter) && (typeFilter === 'all' || r.type === typeFilter));
         f.sort((a, b) => new Date(b.date) - new Date(a.date));
-        
         let tbody = document.querySelector('#rentTable tbody');
         tbody.innerHTML = '';
         let total = 0;
-        
         f.forEach(r => {
             total += r.cost;
             tbody.innerHTML += `<tr><td>${r.date}</td><td>${r.type}</td><td>${escapeHtml(r.item)}</td><td>${r.qty}</td><td>${r.days}</td><td style="color:var(--accent-green); font-weight:bold;">${r.cost.toFixed(2)}</td><td>${escapeHtml(r.note || r.details)}</td></tr>`;
         });
-        
         document.getElementById('totalRentSum').innerText = total.toFixed(2);
         updateDashboard();
     }
@@ -883,21 +805,17 @@
         let from = document.getElementById('wasteFrom').value;
         let to = document.getElementById('wasteTo').value;
         let f = [...wastageLog];
-        
         if(item !== 'all') f = f.filter(w => w.item === item);
         if(from) f = f.filter(w => w.date >= from);
         if(to) f = f.filter(w => w.date <= to);
-        
         f.sort((a, b) => new Date(b.date) - new Date(a.date));
         let tbody = document.querySelector('#wasteTable tbody');
         tbody.innerHTML = '';
         let total = 0;
-        
         f.forEach(w => {
             total += w.cost;
             tbody.innerHTML += `<tr><td>${w.date}</td><td>${escapeHtml(w.item)}</td><td>${w.qty}</td><td>${w.days}</td><td>${w.cost.toFixed(2)}</td><td>${escapeHtml(w.note)}</td></tr>`;
         });
-        
         document.getElementById('totalWasteCost').innerText = total.toFixed(2);
         document.getElementById('wasteCount').innerText = f.length;
     }
@@ -907,49 +825,36 @@
         let itemF = document.getElementById('logItemFilter').value;
         let fromF = document.getElementById('logFromDate').value;
         let toF = document.getElementById('logToDate').value;
-        
         let rows = [];
         for(let t of transactionLog){
             let typeName = t.type === 'in' ? 'توريد' : (t.type === 'out' ? 'مرتجع سليم' : 'هالك');
             let cost = 0, days = '—', det = '';
-            
-            if(t.type === 'in'){ cost = 0; days = '—'; det = ''; }
-            else {
+            if(t.type !== 'in'){
                 let rec = rentHistory.find(r => r.id === t.id);
                 if(rec){ cost = rec.cost; days = rec.days; det = rec.details; }
             }
-            
-            rows.push({
-                type: typeName, typeEn: t.type, id: t.id, date: t.date, item: t.item, 
-                qty: t.qty, price: t.price, days, cost, det, note: t.note || ''
-            });
+            rows.push({ type: typeName, typeEn: t.type, id: t.id, date: t.date, item: t.item, qty: t.qty, price: t.price, days, cost, det, note: t.note || '' });
         }
-        
         rows.sort((a, b) => new Date(b.date) - new Date(a.date));
-        let filtered = rows.filter(r => 
-            (typeF === 'all' || r.typeEn === typeF) && 
+        let filtered = rows.filter(r =>
+            (typeF === 'all' || r.typeEn === typeF) &&
             (itemF === 'all' || r.item === itemF) &&
             (!fromF || r.date >= fromF) &&
             (!toF || r.date <= toF)
         );
-        
         let tbody = document.querySelector('#logTable tbody');
         tbody.innerHTML = '';
         let inSum = 0, outSum = 0, wasteSum = 0, costSum = 0;
-        
         filtered.forEach(r => {
             if(r.typeEn === 'in') inSum += r.qty;
             else if(r.typeEn === 'out') outSum += r.qty;
             else wasteSum += r.qty;
             costSum += r.cost;
-            
             let rowClass = r.typeEn === 'in' ? 'log-in' : (r.typeEn === 'out' ? 'log-out' : 'log-waste');
-            let actions = (currentUser && currentUser.role === 'admin') ? 
+            let actions = (currentUser && currentUser.role === 'admin') ?
                 `<button class="btn btn-sm" onclick="editTrans('${r.id}')"><i class="fas fa-edit"></i></button> <button class="btn btn-sm btn-red" onclick="delTrans('${r.id}')"><i class="fas fa-trash"></i></button>` : '';
-            
             tbody.innerHTML += `<tr class="${rowClass}"><td><i class="fas ${r.typeEn === 'in' ? 'fa-arrow-down' : (r.typeEn === 'out' ? 'fa-arrow-up' : 'fa-exclamation-triangle')}"></i> ${r.type}</td><td>${r.date}</td><td>${escapeHtml(r.item)}</td><td><strong>${r.qty}</strong></td><td>${r.price ? r.price.toFixed(2) : '—'}</td><td>${r.days}</td><td>${r.cost.toFixed(2)}</td><td>${escapeHtml(r.note || r.det)}</td><td>${actions}</td></tr>`;
         });
-        
         let totalDiv = document.getElementById('logTotalTop');
         if(totalDiv) totalDiv.innerHTML = `<span>📊 التوريد: ${inSum}</span> <span>📤 المرتجع: ${outSum}</span> <span>🗑️ الهالك: ${wasteSum}</span> <span>💰 التكلفة: ${costSum.toFixed(2)}</span>`;
     }
@@ -957,13 +862,8 @@
     function renderAlerts(){
         let filterType = document.getElementById('alertFilter')?.value || 'all';
         let filtered = filterType === 'all' ? alerts : alerts.filter(a => a.type === filterType);
-        
         let div = document.getElementById('alertsList');
-        if(filtered.length === 0) {
-            div.innerHTML = '<p class="badge-light"><i class="fas fa-check-circle"></i> لا توجد تنبيهات حالياً</p>';
-            return;
-        }
-        
+        if(filtered.length === 0){ div.innerHTML = '<p class="badge-light"><i class="fas fa-check-circle"></i> لا توجد تنبيهات حالياً</p>'; return; }
         let html = '';
         filtered.forEach(alert => {
             let icon = alert.type === 'low_stock' ? 'fa-box' : alert.type === 'high_waste' ? 'fa-exclamation-triangle' : 'fa-bell';
@@ -976,20 +876,12 @@
     function renderMaster(){
         let div = document.getElementById('itemsList');
         if(!div) return;
-        
-        if(currentUser?.role !== 'admin'){
-            div.innerHTML = '<p class="badge-light">⚠️ غير مسموح، هذه الصفحة للمدير فقط</p>';
-            return;
-        }
-        
+        if(currentUser?.role !== 'admin'){ div.innerHTML = '<p class="badge-light">⚠️ غير مسموح، هذه الصفحة للمدير فقط</p>'; return; }
         div.innerHTML = masterItems.map((m, i) => {
             let qty = inventory.filter(b => b.item === m.name).reduce((s, b) => s + b.qty, 0);
             let lowStock = qty < (m.minStock || 5) ? ' style="background-color: rgba(251,191,36,0.2);"' : '';
             return `<div${lowStock} style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--border-color);">
-                <div>
-                    <strong>${escapeHtml(m.name)}</strong> — ${m.price.toFixed(2)} ج.م/يوم
-                    <br><small style="color: var(--text-secondary);">المخزون: ${qty} | الحد الأدنى: ${m.minStock || 5}</small>
-                </div>
+                <div><strong>${escapeHtml(m.name)}</strong> — ${m.price.toFixed(2)} ج.م/يوم<br><small style="color: var(--text-secondary);">المخزون: ${qty} | الحد الأدنى: ${m.minStock || 5}</small></div>
                 <div><button class="btn btn-sm" onclick="editMaster(${i})">تعديل</button> <button class="btn btn-sm btn-red" onclick="delMaster(${i})">حذف</button></div>
             </div>`;
         }).join('');
@@ -1003,79 +895,57 @@
         if(p && !isNaN(parseFloat(p))) masterItems[i].price = parseFloat(p);
         let m = prompt('الحد الأدنى للمخزون', masterItems[i].minStock || 5);
         if(m && !isNaN(parseInt(m))) masterItems[i].minStock = parseInt(m);
-        renderMaster();
-        pushAll();
-        rebuild();
+        renderMaster(); pushAll(); rebuild();
         showToast('✅ تم التعديل بنجاح', 'success');
     };
     
     window.delMaster = (i) => {
         if(currentUser?.role !== 'admin') return;
         showConfirm('حذف الصنف', `هل تريد حذف "${masterItems[i].name}"؟`, () => {
-            masterItems.splice(i, 1);
-            renderMaster();
-            pushAll();
-            rebuild();
+            masterItems.splice(i, 1); renderMaster(); pushAll(); rebuild();
             showToast('✅ تم الحذف بنجاح', 'success');
         });
     };
     
-    // ==================== عمليات التوريد والمرتجع ====================
+    // ==================== التوريد والمرتجع ====================
     async function addItem(){
         if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
-        
         let item = document.getElementById('inItem').value;
         let qty = parseInt(document.getElementById('inQty').value);
         let date = document.getElementById('inDate').value;
         let note = document.getElementById('inNote').value.trim();
         let inPrice = parseFloat(document.getElementById('inPrice').value);
-        
         if(!item || !qty) return showToast('❌ أدخل البيانات المطلوبة', 'error');
         if(qty < 1) return showToast('❌ الكمية يجب أن تكون أكبر من صفر', 'error');
-        
         if(!date) date = getCurrentDate();
-        
         let price = masterItems.find(m => m.name === item)?.price;
         if(!isNaN(inPrice) && inPrice > 0) price = inPrice;
-        
         let id = Date.now() + '_' + Math.random();
         transactionLog.push({id, type:'in', date, item, qty, price, note});
-        
-        await pushAll();
-        rebuild();
-        
+        await pushAll(); rebuild();
         document.getElementById('inQty').value = '';
         document.getElementById('inPrice').value = '';
         document.getElementById('inNote').value = '';
-        
         showToast(`✅ تم توريد ${qty} من ${item}`, 'success');
     }
     
     async function returnItem(){
         if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
-        
         let item = document.getElementById('outItem').value;
         let retQ = parseInt(document.getElementById('returnQty').value) || 0;
         let wasteQ = parseInt(document.getElementById('wasteQty').value) || 0;
         let note = document.getElementById('wasteNote').value.trim();
         let date = document.getElementById('outDate').value;
-        
         if(!item || (retQ === 0 && wasteQ === 0)) return showToast('❌ أدخل البيانات', 'error');
         if(!date) return showToast('❌ أدخل التاريخ', 'error');
-        
         let avail = inventory.filter(b => b.item === item).reduce((s, b) => s + b.qty, 0);
         if(retQ + wasteQ > avail) return showToast(`⚠️ الكمية أكبر من المتاح (${avail})`, 'warning');
-        
         if(retQ > 0) transactionLog.push({id: Date.now() + '_' + Math.random(), type:'out', date, item, qty:retQ, price:null, note:''});
-        if(wasteQ > 0) transactionLog.push({id: Date.now() + '_' + Math.random(), type:'waste', date, item, qty:wasteQ, price:null, note:note});
-        
-        await pushAll();
-        rebuild();
-        
+        if(wasteQ > 0) transactionLog.push({id: Date.now() + '_' + Math.random(), type:'waste', date, item, qty:wasteQ, price:null, note});
+        await pushAll(); rebuild();
         document.getElementById('returnQty').value = '';
         document.getElementById('wasteQty').value = '';
         document.getElementById('wasteNote').value = '';
-        
         showToast(`✅ تم: سليم ${retQ}، هالك ${wasteQ}`, 'success');
     }
     
@@ -1084,12 +954,10 @@
         let t = transactionLog.find(t => t.id == id);
         if(!t) return;
         let nq = prompt('كمية جديدة', t.qty);
-        if(nq && !isNaN(parseInt(nq))) t.qty = parseInt(nq);
-        else return;
+        if(nq && !isNaN(parseInt(nq))) t.qty = parseInt(nq); else return;
         let nd = prompt('تاريخ جديد (YYYY-MM-DD)', t.date);
         if(nd && nd.match(/^\d{4}-\d{2}-\d{2}$/)) t.date = nd;
-        await pushAll();
-        rebuild();
+        await pushAll(); rebuild();
         showToast('✅ تم التعديل', 'success');
     };
     
@@ -1097,8 +965,7 @@
         if(currentUser?.role !== 'admin') return;
         showConfirm('حذف العملية', 'هل تريد حذف هذه العملية؟', async () => {
             transactionLog = transactionLog.filter(t => t.id != id);
-            await pushAll();
-            rebuild();
+            await pushAll(); rebuild();
             showToast('✅ تم الحذف', 'success');
         });
     };
@@ -1122,12 +989,9 @@
                 if(d.transactionLog) transactionLog = d.transactionLog;
                 if(d.masterItems) masterItems = d.masterItems;
                 if(d.wastageLog) wastageLog = d.wastageLog;
-                pushAll();
-                rebuild();
+                pushAll(); rebuild();
                 showToast('✅ تمت الاستعادة بنجاح', 'success');
-            } catch(err) {
-                showToast('❌ خطأ في قراءة الملف', 'error');
-            }
+            } catch(err) { showToast('❌ خطأ في قراءة الملف', 'error'); }
         };
         r.readAsText(file);
     }
@@ -1135,34 +999,19 @@
     function resetAll(){
         if(currentUser?.role !== 'admin') return;
         showConfirm('مسح البيانات', '⚠️ هذا سيمسح جميع البيانات نهائياً، هل تريد المتابعة؟', async () => {
-            transactionLog = [];
-            masterItems = defaultItems;
-            wastageLog = [];
-            await pushAll();
-            rebuild();
+            transactionLog = []; masterItems = defaultItems; wastageLog = [];
+            await pushAll(); rebuild();
             showToast('✅ تم مسح جميع البيانات', 'success');
         });
     }
     
     function exportExcel(){
-        let rentData = rentHistory.map(r => ({
-            التاريخ: r.date, النوع: r.type, الصنف: r.item, الكمية: r.qty, 
-            الأيام: r.days, التكلفة: r.cost, ملاحظات: r.note || r.details
-        }));
-        let logData = transactionLog.map(t => ({
-            النوع: t.type, التاريخ: t.date, الصنف: t.item, الكمية: t.qty, 
-            السعر: t.price || '', ملاحظات: t.note || ''
-        }));
+        let rentData = rentHistory.map(r => ({ التاريخ: r.date, النوع: r.type, الصنف: r.item, الكمية: r.qty, الأيام: r.days, التكلفة: r.cost, ملاحظات: r.note || r.details }));
+        let logData = transactionLog.map(t => ({ النوع: t.type, التاريخ: t.date, الصنف: t.item, الكمية: t.qty, السعر: t.price || '', ملاحظات: t.note || '' }));
         let summaryData = [];
         let map = new Map();
-        inventory.forEach(b => {
-            if(!map.has(b.item)) map.set(b.item, 0);
-            map.set(b.item, map.get(b.item) + b.qty);
-        });
-        for(let [item, qty] of map.entries()) {
-            summaryData.push({الصنف: item, الكمية: qty});
-        }
-        
+        inventory.forEach(b => { if(!map.has(b.item)) map.set(b.item, 0); map.set(b.item, map.get(b.item) + b.qty); });
+        for(let [item, qty] of map.entries()) summaryData.push({الصنف: item, الكمية: qty});
         let wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rentData), 'الإيجارات');
         XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(logData), 'سجل الحركات');
@@ -1177,9 +1026,7 @@
         if(!el) return;
         let clone = el.cloneNode(true);
         let wrap = document.createElement('div');
-        wrap.appendChild(clone);
-        wrap.style.padding = '20px';
-        wrap.style.background = 'white';
+        wrap.appendChild(clone); wrap.style.padding = '20px'; wrap.style.background = 'white';
         document.body.appendChild(wrap);
         try {
             let canvas = await html2canvas(wrap, {scale:2});
@@ -1189,9 +1036,7 @@
             pdf.addImage(img, 'PNG', 10, 10, w, h);
             pdf.save(`zad_report_${new Date().toISOString().slice(0,19)}.pdf`);
             showToast('✅ تم تصدير PDF', 'success');
-        } catch(e) {
-            showToast('❌ فشل التصدير', 'error');
-        }
+        } catch(e) { showToast('❌ فشل التصدير', 'error'); }
         document.body.removeChild(wrap);
     }
     
@@ -1201,59 +1046,36 @@
             let data = await file.arrayBuffer();
             let wb = XLSX.read(data, {type:'array'});
             let newItems = [], newTrans = [];
-            
             for(let name of wb.SheetNames){
                 let sheet = wb.Sheets[name];
                 let rows = XLSX.utils.sheet_to_json(sheet, {header:1, defval:""});
                 if(!rows || rows.length < 3) continue;
-                
                 let itemName = name.trim();
-                let priceFrom = null;
-                let supplies = [];
-                
+                let priceFrom = null, supplies = [];
                 for(let i = 1; i < rows.length; i++){
                     let row = rows[i];
                     if(!row || row.length < 3) continue;
-                    let qty = parseFloat(row[0]);
-                    let dateRaw = row[1];
-                    let priceRaw = parseFloat(row[2]);
-                    let dateStr = '';
-                    
+                    let qty = parseFloat(row[0]), dateRaw = row[1], priceRaw = parseFloat(row[2]), dateStr = '';
                     if(dateRaw instanceof Date) dateStr = dateRaw.toISOString().slice(0,10);
                     else if(typeof dateRaw === 'string' && dateRaw.match(/\d{4}-\d{2}-\d{2}/)) dateStr = dateRaw.slice(0,10);
-                    else if(typeof dateRaw === 'number'){
-                        let d = new Date((dateRaw - 25569) * 86400000);
-                        if(!isNaN(d)) dateStr = d.toISOString().slice(0,10);
-                    }
-                    
-                    if(!isNaN(qty) && qty > 0 && dateStr){
-                        supplies.push({qty, date:dateStr, price:priceRaw});
-                        if(priceRaw && !isNaN(priceRaw) && priceRaw > 0 && !priceFrom) priceFrom = priceRaw;
-                    }
+                    else if(typeof dateRaw === 'number'){ let d = new Date((dateRaw - 25569) * 86400000); if(!isNaN(d)) dateStr = d.toISOString().slice(0,10); }
+                    if(!isNaN(qty) && qty > 0 && dateStr){ supplies.push({qty, date:dateStr, price:priceRaw}); if(priceRaw && !isNaN(priceRaw) && priceRaw > 0 && !priceFrom) priceFrom = priceRaw; }
                 }
-                
                 if(supplies.length === 0) continue;
                 if(!priceFrom) priceFrom = 1.0;
-                
                 let existing = masterItems.find(m => m.name === itemName);
                 if(!existing) newItems.push({name:itemName, price:priceFrom, minStock:5});
                 else if(confirm(`الصنف "${itemName}" موجود، تحديث السعر إلى ${priceFrom}؟`)) existing.price = priceFrom;
-                
                 for(let sup of supplies){
                     let exists = transactionLog.some(t => t.type === 'in' && t.item === itemName && t.date === sup.date && t.qty === sup.qty);
                     if(!exists) newTrans.push({type:'in', date:sup.date, item:itemName, qty:sup.qty, price:(sup.price && sup.price > 0) ? sup.price : priceFrom});
                 }
             }
-            
             for(let ni of newItems) if(!masterItems.find(m => m.name === ni.name)) masterItems.push(ni);
             for(let tr of newTrans) transactionLog.push({id:Date.now()+'_'+Math.random()+tr.item, type:tr.type, date:tr.date, item:tr.item, qty:tr.qty, price:tr.price, note:''});
-            
-            await pushAll();
-            rebuild();
+            await pushAll(); rebuild();
             showToast(`✅ تم استيراد ${newItems.length} صنف و ${newTrans.length} عملية`, 'success');
-        } catch(err) {
-            showToast('❌ خطأ في الاستيراد: ' + err.message, 'error');
-        }
+        } catch(err) { showToast('❌ خطأ في الاستيراد: ' + err.message, 'error'); }
     }
     
     function updateDashboard(){
@@ -1263,141 +1085,66 @@
         let netActive = totalIn - totalOut - totalWaste;
         let totalRent = rentHistory.reduce((s, r) => s + r.cost, 0);
         let wastePercent = totalIn > 0 ? ((totalWaste / totalIn) * 100).toFixed(1) : 0;
-        
         document.getElementById('dashTotalIn').innerText = totalIn;
         document.getElementById('dashTotalOut').innerText = totalOut;
         document.getElementById('dashTotalWaste').innerText = totalWaste;
         document.getElementById('dashNetActive').innerText = netActive;
         document.getElementById('dashTotalRent').innerText = totalRent.toFixed(2);
         document.getElementById('dashWastePercent').innerText = wastePercent + '%';
-        
         let dashAlerts = document.getElementById('dashAlerts');
-        if(wastePercent > 15) {
-            dashAlerts.innerHTML = `<div class="badge-warning"><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> نسبة الهالك مرتفعة (${wastePercent}%)</div>`;
-        } else {
-            dashAlerts.innerHTML = '';
-        }
+        dashAlerts.innerHTML = wastePercent > 15 ? `<div class="badge-warning"><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> نسبة الهالك مرتفعة (${wastePercent}%)</div>` : '';
     }
     
     let chart1, chart2;
     function drawCharts(){
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const isDark = currentTheme === 'dark';
-        
-        // ألوان متوافقة مع الثيم
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         const textColor = isDark ? '#e2e8f0' : '#1e293b';
         const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
-        
         let itemsMap = new Map();
         inventory.forEach(b => { itemsMap.set(b.item, (itemsMap.get(b.item) || 0) + b.qty); });
         let labels = [...itemsMap.keys()], data = [...itemsMap.values()];
-        
         if(chart1) chart1.destroy();
-        let ctx1 = document.getElementById('itemChart').getContext('2d');
-        chart1 = new Chart(ctx1, {
+        chart1 = new Chart(document.getElementById('itemChart').getContext('2d'), {
             type: 'bar',
-            data: { 
-                labels, 
-                datasets: [{ 
-                    label: 'الكمية', 
-                    data, 
-                    backgroundColor: isDark ? '#fbbf24' : '#f39c12', 
-                    borderRadius: 8 
-                }] 
-            },
-            options: { 
-                responsive: true, 
-                plugins: { 
-                    legend: { 
-                        display: false 
-                    } 
-                },
-                scales: {
-                    y: {
-                        ticks: { color: textColor },
-                        grid: { color: gridColor }
-                    },
-                    x: {
-                        ticks: { color: textColor },
-                        grid: { color: gridColor }
-                    }
-                }
-            }
+            data: { labels, datasets: [{ label: 'الكمية', data, backgroundColor: isDark ? '#fbbf24' : '#f39c12', borderRadius: 8 }] },
+            options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { color: textColor }, grid: { color: gridColor } }, x: { ticks: { color: textColor }, grid: { color: gridColor } } } }
         });
-        
         let months = [], rentByMonth = new Map(), now = new Date();
         for(let i = 5; i >= 0; i--){
             let d = new Date(now.getFullYear(), now.getMonth() - i, 1);
             let key = `${d.getFullYear()}-${d.getMonth() + 1}`;
-            let monthName = d.toLocaleDateString('ar', {year:'numeric', month:'short'});
-            months.push(monthName);
+            months.push(d.toLocaleDateString('ar', {year:'numeric', month:'short'}));
             rentByMonth.set(key, 0);
         }
-        
         rentHistory.forEach(r => {
             let date = new Date(r.date);
             let key = `${date.getFullYear()}-${date.getMonth() + 1}`;
             if(rentByMonth.has(key)) rentByMonth.set(key, rentByMonth.get(key) + r.cost);
         });
-        
         let rentData = months.map((_, idx) => {
             let d = new Date(now.getFullYear(), now.getMonth() - (5 - idx), 1);
-            let key = `${d.getFullYear()}-${d.getMonth() + 1}`;
-            return rentByMonth.get(key) || 0;
+            return rentByMonth.get(`${d.getFullYear()}-${d.getMonth() + 1}`) || 0;
         });
-        
         if(chart2) chart2.destroy();
-        let ctx2 = document.getElementById('rentChart').getContext('2d');
-        chart2 = new Chart(ctx2, {
+        chart2 = new Chart(document.getElementById('rentChart').getContext('2d'), {
             type: 'line',
-            data: {
-                labels: months,
-                datasets: [{
-                    label: 'الإيجار (ج.م)',
-                    data: rentData,
-                    borderColor: isDark ? '#fbbf24' : '#f39c12',
-                    backgroundColor: isDark ? 'rgba(251,191,36,0.1)' : 'rgba(243,156,18,0.1)',
-                    fill: true,
-                    tension: 0.3
-                }]
-            },
-            options: { 
-                responsive: true, 
-                plugins: { 
-                    legend: { 
-                        display: true,
-                        labels: { color: textColor }
-                    } 
-                },
-                scales: {
-                    y: {
-                        ticks: { color: textColor },
-                        grid: { color: gridColor }
-                    },
-                    x: {
-                        ticks: { color: textColor },
-                        grid: { color: gridColor }
-                    }
-                }
-            }
+            data: { labels: months, datasets: [{ label: 'الإيجار (ج.م)', data: rentData, borderColor: isDark ? '#fbbf24' : '#f39c12', backgroundColor: isDark ? 'rgba(251,191,36,0.1)' : 'rgba(243,156,18,0.1)', fill: true, tension: 0.3 }] },
+            options: { responsive: true, plugins: { legend: { display: true, labels: { color: textColor } } }, scales: { y: { ticks: { color: textColor }, grid: { color: gridColor } }, x: { ticks: { color: textColor }, grid: { color: gridColor } } } }
         });
     }
     
-    // ==================== إدارة المستخدمين والأجهزة ====================
+    // ==================== المستخدمين ====================
     function updateUsersAndDevices(){
         let devicesDiv = document.getElementById('devicesList');
         if(devicesDiv){
-            if(sessions.length === 0) devicesDiv.innerHTML = '<p class="badge-light">لا توجد أجهزة نشطة</p>';
+            if(!sessions || sessions.length === 0) devicesDiv.innerHTML = '<p class="badge-light">لا توجد أجهزة نشطة</p>';
             else {
                 let html = '<table class="premium-table"><thead><tr><th>الجهاز</th><th>المتصفح</th><th>آخر نشاط</th><th>المستخدم</th><th>الصلاحية</th></tr></thead><tbody>';
-                sessions.forEach(s => {
-                    html += `<tr><td>${escapeHtml(s.deviceName || 'غير معروف')}</td><td>${escapeHtml(s.browser)}</td><td>${new Date(s.lastActive).toLocaleString('ar')}</td><td>${escapeHtml(s.username)}</td><td>${s.role === 'admin' ? '👑 مدير' : '👁️ مشاهد'}</td></tr>`;
-                });
+                sessions.forEach(s => { html += `<tr><td>${escapeHtml(s.deviceName || 'غير معروف')}</td><td>${escapeHtml(s.browser)}</td><td>${new Date(s.lastActive).toLocaleString('ar')}</td><td>${escapeHtml(s.username)}</td><td>${s.role === 'admin' ? '👑 مدير' : '👁️ مشاهد'}</td></tr>`; });
                 html += '</tbody></table>';
                 devicesDiv.innerHTML = html;
             }
         }
-        
         let usersDiv = document.getElementById('usersListDisplay');
         if(usersDiv){
             if(Object.keys(usersList).length === 0) usersDiv.innerHTML = '<p class="badge-light">لا يوجد مستخدمون</p>';
@@ -1405,18 +1152,14 @@
                 let html = '<table class="premium-table"><thead><tr><th>المستخدم</th><th>الصلاحية</th><th></th></tr></thead><tbody>';
                 for(let u in usersList){
                     let actions = '';
-                    if(currentUser && currentUser.role === 'admin' && u !== 'admin'){
-                        actions = `<button class="btn btn-sm btn-red" onclick="deleteUser('${escapeHtml(u)}')"><i class="fas fa-trash"></i> حذف</button> <button class="btn btn-sm" onclick="editUser('${escapeHtml(u)}')"><i class="fas fa-edit"></i> تعديل</button>`;
-                    } else if(u === 'admin'){
-                        actions = '<span style="color: var(--accent-gold);">👑 المدير الرئيسي</span>';
-                    }
+                    if(currentUser && currentUser.role === 'admin' && u !== 'admin') actions = `<button class="btn btn-sm btn-red" onclick="deleteUser('${escapeHtml(u)}')"><i class="fas fa-trash"></i> حذف</button> <button class="btn btn-sm" onclick="editUser('${escapeHtml(u)}')"><i class="fas fa-edit"></i> تعديل</button>`;
+                    else if(u === 'admin') actions = '<span style="color: var(--accent-gold);">👑 المدير الرئيسي</span>';
                     html += `<tr><td><strong>${escapeHtml(u)}</strong></td><td>${usersList[u].role === 'admin' ? '👑 مدير' : '👁️ مشاهد'}</td><td>${actions}</td></tr>`;
                 }
                 html += '</tbody></table>';
                 usersDiv.innerHTML = html;
             }
         }
-        
         document.getElementById('userInfo').innerText = currentUser ? `مرحباً ${currentUser.username} (${currentUser.role === 'admin' ? '👑 مدير' : '👁️ مشاهد'})` : '';
     }
     
@@ -1424,9 +1167,7 @@
         if(currentUser?.role !== 'admin') return showToast('⚠️ صلاحية مدير فقط', 'warning');
         if(username === 'admin') return showToast('❌ لا يمكن حذف المدير الرئيسي', 'error');
         showConfirm('حذف المستخدم', `هل تريد حذف "${username}"؟`, () => {
-            delete usersList[username];
-            pushAll();
-            updateUsersAndDevices();
+            delete usersList[username]; pushAll(); updateUsersAndDevices();
             showToast(`✅ تم حذف ${username}`, 'success');
         });
     };
@@ -1439,8 +1180,7 @@
             usersList[username].password = newPass.trim();
             let newRole = confirm('تغيير إلى مدير؟ (OK = مدير، Cancel = مشاهد)') ? 'admin' : 'viewer';
             usersList[username].role = newRole;
-            pushAll();
-            updateUsersAndDevices();
+            pushAll(); updateUsersAndDevices();
             showToast(`✅ تم تعديل ${username}`, 'success');
         }
     };
@@ -1450,11 +1190,9 @@
         let username = document.getElementById('newUsername').value.trim();
         let pass = document.getElementById('newUserPass').value.trim();
         let role = document.getElementById('newUserRole').value;
-        
         if(!username || !pass) return showToast('❌ أدخل البيانات المطلوبة', 'error');
         if(usersList[username]) return showToast('⚠️ المستخدم موجود بالفعل', 'warning');
-        
-        usersList[username] = { password: pass, role: role };
+        usersList[username] = { password: pass, role };
         pushAll();
         showToast('✅ تم إضافة المستخدم بنجاح', 'success');
         document.getElementById('newUsername').value = '';
@@ -1462,15 +1200,32 @@
         updateUsersAndDevices();
     }
     
-    // ==================== نظام الدخول والخروج ====================
-    function login(){
+    // ==================== الدخول والخروج ====================
+    function applyUserPermissions(){
+        if(currentUser.role !== 'admin'){
+            document.getElementById('itemsTab').style.display = 'none';
+            document.getElementById('adminTab').style.display = 'none';
+            document.getElementById('usersTab').style.display = 'none';
+            document.getElementById('reportsTab').style.display = 'none';
+        } else {
+            document.getElementById('itemsTab').style.display = 'inline-flex';
+            document.getElementById('adminTab').style.display = 'inline-flex';
+            document.getElementById('usersTab').style.display = 'inline-flex';
+            document.getElementById('reportsTab').style.display = 'inline-flex';
+        }
+    }
+
+    async function login(){
+        // ✅ الإصلاح: نحمّل المستخدمين من Firebase أولاً قبل أي شيء
+        try {
+            let u = (await db.ref('users').once('value')).val();
+            if(u) usersList = u;
+        } catch(e) {}
+
         let pass = document.getElementById('loginPassword').value;
         let found = null;
         for(let u in usersList){
-            if(usersList[u].password === pass){
-                found = { username: u, role: usersList[u].role };
-                break;
-            }
+            if(usersList[u].password === pass){ found = { username: u, role: usersList[u].role }; break; }
         }
         
         if(found){
@@ -1479,27 +1234,25 @@
             
             let deviceName = navigator.userAgent.split('(')[1]?.split(')')[0] || 'جهاز غير معروف';
             let browser = navigator.userAgent.split(' ').pop();
-            let sessionId = Date.now() + '_' + Math.random();
-            sessions = sessions.filter(s => s.username !== currentUser.username);
-            sessions.push({ id: sessionId, username: currentUser.username, role: currentUser.role, deviceName, browser, lastActive: Date.now() });
             
-            pushAll();
+            // ✅ الإصلاح الرئيسي: نحمّل الـ sessions من Firebase أولاً
+            try {
+                let s = (await db.ref('sessions').once('value')).val();
+                if(s) sessions = Array.isArray(s) ? s : Object.values(s);
+            } catch(e) { sessions = []; }
+            
+            sessions = sessions.filter(s => s.username !== currentUser.username);
+            sessions.push({ id: Date.now() + '_' + Math.random(), username: currentUser.username, role: currentUser.role, deviceName, browser, lastActive: Date.now() });
+            
+            // ✅ الإصلاح: نحفظ الـ sessions فقط، مش كل الداتا
+            await db.ref('sessions').set(sessions);
+            
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
+            applyUserPermissions();
             
-            if(currentUser.role !== 'admin'){
-                document.getElementById('itemsTab').style.display = 'none';
-                document.getElementById('adminTab').style.display = 'none';
-                document.getElementById('usersTab').style.display = 'none';
-                document.getElementById('reportsTab').style.display = 'none';
-            } else {
-                document.getElementById('itemsTab').style.display = 'inline-flex';
-                document.getElementById('adminTab').style.display = 'inline-flex';
-                document.getElementById('usersTab').style.display = 'inline-flex';
-                document.getElementById('reportsTab').style.display = 'inline-flex';
-            }
-            
-            loadAll();
+            // ✅ loadAll بعد ما عرضنا الشاشة - بتجيب الداتا الحقيقية من Firebase
+            await loadAll();
             showToast(`✅ مرحباً ${currentUser.username}`, 'success');
         } else {
             showToast('❌ كلمة المرور غير صحيحة', 'error');
@@ -1510,7 +1263,7 @@
     function logout(){
         localStorage.removeItem('zad_logged_user');
         sessions = sessions.filter(s => s.username !== currentUser?.username);
-        pushAll();
+        db.ref('sessions').set(sessions);
         currentUser = null;
         document.getElementById('loginOverlay').style.display = 'flex';
         document.getElementById('mainApp').style.display = 'none';
@@ -1518,27 +1271,20 @@
         showToast('👋 تم تسجيل الخروج', 'info');
     }
     
-    function checkSavedSession(){
+    async function checkSavedSession(){
         let saved = localStorage.getItem('zad_logged_user');
         if(saved){
             try {
                 let user = JSON.parse(saved);
+                // ✅ نحمّل المستخدمين من Firebase أولاً للتحقق
+                let u = (await db.ref('users').once('value')).val();
+                if(u) usersList = u;
                 if(usersList[user.username] && usersList[user.username].role === user.role){
                     currentUser = user;
                     document.getElementById('loginOverlay').style.display = 'none';
                     document.getElementById('mainApp').style.display = 'block';
-                    if(currentUser.role !== 'admin'){
-                        document.getElementById('itemsTab').style.display = 'none';
-                        document.getElementById('adminTab').style.display = 'none';
-                        document.getElementById('usersTab').style.display = 'none';
-                        document.getElementById('reportsTab').style.display = 'none';
-                    } else {
-                        document.getElementById('itemsTab').style.display = 'inline-flex';
-                        document.getElementById('adminTab').style.display = 'inline-flex';
-                        document.getElementById('usersTab').style.display = 'inline-flex';
-                        document.getElementById('reportsTab').style.display = 'inline-flex';
-                    }
-                    loadAll();
+                    applyUserPermissions();
+                    await loadAll();
                     return true;
                 }
             } catch(e) {}
@@ -1546,7 +1292,7 @@
         return false;
     }
     
-    // ==================== ربط الأحداث ====================
+    // ==================== الأحداث ====================
     document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
     document.getElementById('loginBtn')?.addEventListener('click', login);
     document.getElementById('loginPassword')?.addEventListener('keypress', e => { if(e.key === 'Enter') login(); });
@@ -1559,12 +1305,9 @@
         let p = parseFloat(document.getElementById('newItemPrice').value);
         let m = parseInt(document.getElementById('newItemMin').value) || 5;
         if(!n || isNaN(p)) return showToast('❌ أدخل الاسم والسعر', 'error');
-        let ex = masterItems.find(m => m.name === n);
-        if(ex) { ex.price = p; ex.minStock = m; }
-        else masterItems.push({name: n, price: p, minStock: m});
-        renderMaster();
-        pushAll();
-        rebuild();
+        let ex = masterItems.find(x => x.name === n);
+        if(ex){ ex.price = p; ex.minStock = m; } else masterItems.push({name: n, price: p, minStock: m});
+        renderMaster(); pushAll(); rebuild();
         document.getElementById('newItemName').value = '';
         document.getElementById('newItemPrice').value = '';
         document.getElementById('newItemMin').value = '';
@@ -1592,17 +1335,14 @@
     });
     document.getElementById('alertFilter')?.addEventListener('change', renderAlerts);
     document.getElementById('clearAlertsBtn')?.addEventListener('click', () => {
-        alerts = [];
-        updateAlertBadge();
-        renderAlerts();
+        alerts = []; updateAlertBadge(); renderAlerts();
         showToast('✅ تم مسح التنبيهات', 'success');
     });
     document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
     document.getElementById('exportPdfBtn')?.addEventListener('click', exportPDF);
     document.getElementById('importExcelBtn')?.addEventListener('click', () => {
         let inp = document.createElement('input');
-        inp.type = 'file';
-        inp.accept = '.xlsx,.xls';
+        inp.type = 'file'; inp.accept = '.xlsx,.xls';
         inp.onchange = e => { if(e.target.files.length) importExcel(e.target.files[0]); inp.remove(); };
         inp.click();
     });
@@ -1630,14 +1370,15 @@
         if(id === 'users') updateUsersAndDevices();
     }));
     
-    // تهيئة الثيم عند التحميل
     initTheme();
     
-    // التحقق من الجلسة عند التحميل
-    if(!checkSavedSession()){
-        document.getElementById('loginOverlay').style.display = 'flex';
-        document.getElementById('mainApp').style.display = 'none';
-    }
+    // ✅ checkSavedSession أصبحت async
+    checkSavedSession().then(loggedIn => {
+        if(!loggedIn){
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+    });
 </script>
 </body>
 </html>
